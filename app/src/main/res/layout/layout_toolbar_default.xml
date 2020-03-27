@@ -43,13 +43,13 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/ivFavorite"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:srcCompat="@drawable/ic_launcher_foreground"
+            app:srcCompat="@drawable/ic_heart"
             tools:visibility="visible" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
