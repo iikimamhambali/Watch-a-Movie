@@ -1,4 +1,4 @@
-package com.android.themoviedb.ui.HomePage.adapter
+package com.android.themoviedb.ui.homePage.adapter
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
@@ -7,7 +7,9 @@ import com.android.themoviedb.helper.loadFromUrlWithPlaceholder
 import com.android.themoviedb.model.MovieList
 import kotlinx.android.synthetic.main.layout_item_home_page.view.*
 
-class HomePageViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+class HomePageViewHolder(
+    view: View, private val listener: SetItemListener
+) : RecyclerView.ViewHolder(view) {
 
     fun bind(items: MovieList) {
         with(itemView) {
@@ -20,6 +22,12 @@ class HomePageViewHolder(view: View) : RecyclerView.ViewHolder(view) {
             tvTitle.text = items.title
             tvReleaseDate.text = items.releaseDate
             tvDescription.text = items.overview
+            cvMovie.setOnClickListener { listener.onClick(items) }
         }
+    }
+
+    interface SetItemListener {
+
+        fun onClick(items: MovieList)
     }
 }

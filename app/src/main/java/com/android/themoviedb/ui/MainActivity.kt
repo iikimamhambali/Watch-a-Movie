@@ -8,21 +8,26 @@ import com.android.themoviedb.base.BaseActivity
 import com.android.themoviedb.base.BaseRecyclerView
 import com.android.themoviedb.model.MovieList
 import com.android.themoviedb.model.MovieRequest
-import com.android.themoviedb.ui.HomePage.HomePageViewModel
-import com.android.themoviedb.ui.HomePage.adapter.HomePageAdapter
+import com.android.themoviedb.ui.detail.DetailMovieActivity
+import com.android.themoviedb.ui.detail.DetailMovieActivity.Companion.MOVIE_ID
+import com.android.themoviedb.ui.detail.DetailMovieActivity.Companion.TITLE_MOVIE
+import com.android.themoviedb.ui.homePage.HomePageViewModel
+import com.android.themoviedb.ui.homePage.adapter.HomePageAdapter
+import com.android.themoviedb.ui.homePage.adapter.HomePageViewHolder
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.layout_bottom_sheet_category.view.*
 import kotlinx.android.synthetic.main.layout_toolbar_default.*
+import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class MainActivity : BaseActivity() {
+class MainActivity : BaseActivity(), HomePageViewHolder.SetItemListener {
 
     private val viewModel by viewModel<HomePageViewModel>()
 
     private var resultItems = mutableListOf<MovieList>()
-    private val adapterMovie by lazy { HomePageAdapter(resultItems) }
+    private val adapterMovie by lazy { HomePageAdapter(resultItems, this) }
 
     companion object {
         const val LANGUAGE = "en-US"
@@ -99,6 +104,10 @@ class MainActivity : BaseActivity() {
         resultItems.clear()
         resultItems.addAll(data)
         adapterMovie.notifyDataSetChanged()
+    }
+
+    override fun onClick(items: MovieList) {
+        startActivity<DetailMovieActivity>(MOVIE_ID to items.id, TITLE_MOVIE to items.title)
     }
 
     private fun request(page: Int, region: String = ""): MovieRequest =

@@ -1,4 +1,4 @@
-package com.android.themoviedb.ui.HomePage
+package com.android.themoviedb.ui.homePage
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
