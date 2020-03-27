@@ -15,6 +15,7 @@ class HomePageViewModel(repository: MovieRepository) : BaseViewModel() {
     private val nowPlayingRequest = MutableLiveData<MovieRequest>()
     private val popularRequest = MutableLiveData<MovieRequest>()
     private val upComingRequest = MutableLiveData<MovieRequest>()
+    private val topRatedRequest = MutableLiveData<MovieRequest>()
     private val configurationRequest = MutableLiveData<String>()
 
     val listNowPlayingMovie: LiveData<Resource<MovieResult>> = Transformations
@@ -42,6 +43,15 @@ class HomePageViewModel(repository: MovieRepository) : BaseViewModel() {
 
     fun getUpComingMovie(request: MovieRequest) {
         upComingRequest.value = request
+    }
+
+    val listTopRatedMovie: LiveData<Resource<MovieResult>> = Transformations
+        .switchMap(topRatedRequest) {
+            repository.getTopRated(it)
+        }
+
+    fun getTopRatedMovie(request: MovieRequest) {
+        topRatedRequest.value = request
     }
 
     val configuration: LiveData<Resource<ConfirgurationResult>> = Transformations

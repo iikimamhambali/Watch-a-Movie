@@ -54,6 +54,19 @@ class MovieRepository(
         }.asLiveData()
     }
 
+    fun getTopRated(request: MovieRequest): LiveData<Resource<MovieResult>> {
+        return object : BaseRepo<MovieResult>(appExecutors) {
+            override fun loadFromNetwork(): LiveData<ApiResponse<MovieResult>> {
+                return services.getTopRated(
+                    request.apiKey,
+                    request.language,
+                    request.page,
+                    request.region
+                )
+            }
+        }.asLiveData()
+    }
+
     fun getConfiguration(key: String): LiveData<Resource<ConfirgurationResult>> {
         return object : BaseRepo<ConfirgurationResult>(appExecutors) {
             override fun loadFromNetwork(): LiveData<ApiResponse<ConfirgurationResult>> {
