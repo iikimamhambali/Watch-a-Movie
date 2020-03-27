@@ -75,7 +75,10 @@ class MainActivity : BaseActivity() {
                     loadingDataPopular(1)
                     dialog.dismiss()
                 }
-                this.tvUpComing.setOnClickListener { toast("upcoming") }
+                this.tvUpComing.setOnClickListener {
+                    loadingDataUpComing(1)
+                    dialog.dismiss()
+                }
                 this.tvTopRated.setOnClickListener { toast("top rated") }
                 this.tvNowPlaying.setOnClickListener { toast("now playing") }
             }
@@ -103,6 +106,10 @@ class MainActivity : BaseActivity() {
         viewModel.getPopularMovie(request(page, region))
     }
 
+    private fun loadingDataUpComing(page: Int, region: String = "") {
+        viewModel.getUpComingMovie(request(page, region))
+    }
+
     override fun loadingData(isFromSwipe: Boolean) {
         super.loadingData(isFromSwipe)
         loadingDataNowPlaying(1)
@@ -117,6 +124,12 @@ class MainActivity : BaseActivity() {
         })
 
         viewModel.listPopularMovie.observe(this, Observer {
+            parseObserveData(it, resultSuccess = { result, pagination ->
+                addData(result.results)
+            })
+        })
+
+        viewModel.listUpComingMovie.observe(this, Observer {
             parseObserveData(it, resultSuccess = { result, pagination ->
                 addData(result.results)
             })

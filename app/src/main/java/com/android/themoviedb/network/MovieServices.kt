@@ -26,6 +26,14 @@ interface MovieServices {
         @Query("region") region: String
     ): LiveData<ApiResponse<MovieResult>>
 
+    @GET("movie/upcoming")
+    fun getUpComing(
+        @Query("api_key") key: String,
+        @Query("language") language: String = "en-US",
+        @Query("page") page: Int,
+        @Query("region") region: String
+    ): LiveData<ApiResponse<MovieResult>>
+
     @GET("configuration")
     fun getConfiguration(@Query("api_key") key: String): LiveData<ApiResponse<ConfirgurationResult>>
 }
