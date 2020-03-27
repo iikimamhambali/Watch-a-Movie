@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class NowPlayingRequest(
+data class MovieRequest(
     @SerializedName("api_key") val apiKey: String,
     @SerializedName("language") val language: String,
     @SerializedName("page") val page: Int,

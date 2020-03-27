@@ -7,7 +7,7 @@ import com.android.themoviedb.R
 import com.android.themoviedb.base.BaseActivity
 import com.android.themoviedb.base.BaseRecyclerView
 import com.android.themoviedb.model.MovieList
-import com.android.themoviedb.model.NowPlayingRequest
+import com.android.themoviedb.model.MovieRequest
 import com.android.themoviedb.ui.HomePage.HomePageViewModel
 import com.android.themoviedb.ui.HomePage.adapter.HomePageAdapter
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -59,18 +59,22 @@ class MainActivity : BaseActivity() {
 
     private fun setOnClickToolbar() {
         ivFavorite.setOnClickListener {
-            toast("Favorite")
         }
     }
 
     private fun setOnClickCategory() {
         btnCategory.setOnClickListener {
             val dialog = BottomSheetDialog(this)
-            val dialogView: View = layoutInflater.inflate(R.layout.layout_bottom_sheet_category,
-                null)
+            val dialogView: View = layoutInflater.inflate(
+                R.layout.layout_bottom_sheet_category,
+                null
+            )
 
             with(dialogView) {
-                this.tvPopular.setOnClickListener { toast("popular") }
+                this.tvPopular.setOnClickListener {
+                    loadingDataPopular(1)
+                    dialog.dismiss()
+                }
                 this.tvUpComing.setOnClickListener { toast("upcoming") }
                 this.tvTopRated.setOnClickListener { toast("top rated") }
                 this.tvNowPlaying.setOnClickListener { toast("now playing") }
@@ -88,20 +92,31 @@ class MainActivity : BaseActivity() {
         adapterMovie.notifyDataSetChanged()
     }
 
-    private fun loadingData(page: Int, region: String = "") {
-        val requestData = NowPlayingRequest(getString(R.string.api_key), LANGUAGE, page, region)
-        viewModel.getNowPlayingMovie(requestData)
+    private fun request(page: Int, region: String = ""): MovieRequest =
+        MovieRequest(getString(R.string.api_key), LANGUAGE, page, region)
+
+    private fun loadingDataNowPlaying(page: Int, region: String = "") {
+        viewModel.getNowPlayingMovie(request(page, region))
+    }
+
+    private fun loadingDataPopular(page: Int, region: String = "") {
+        viewModel.getPopularMovie(request(page, region))
     }
 
     override fun loadingData(isFromSwipe: Boolean) {
         super.loadingData(isFromSwipe)
-        loadingData(1)
+        loadingDataNowPlaying(1)
     }
 
     override fun observeData() {
         super.observeData()
-
         viewModel.listNowPlayingMovie.observe(this, Observer {
+            parseObserveData(it, resultSuccess = { result, pagination ->
+                addData(result.results)
+            })
+        })
+
+        viewModel.listPopularMovie.observe(this, Observer {
             parseObserveData(it, resultSuccess = { result, pagination ->
                 addData(result.results)
             })
