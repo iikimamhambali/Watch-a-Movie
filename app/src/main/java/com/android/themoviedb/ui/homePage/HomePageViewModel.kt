@@ -5,9 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import com.android.themoviedb.base.BaseViewModel
 import com.android.themoviedb.helper.Resource
-import com.android.themoviedb.model.ConfirgurationResult
-import com.android.themoviedb.model.MovieRequest
-import com.android.themoviedb.model.MovieResult
+import com.android.themoviedb.model.*
 import com.android.themoviedb.repository.MovieRepository
 
 class HomePageViewModel(repository: MovieRepository) : BaseViewModel() {
@@ -16,6 +14,7 @@ class HomePageViewModel(repository: MovieRepository) : BaseViewModel() {
     private val popularRequest = MutableLiveData<MovieRequest>()
     private val upComingRequest = MutableLiveData<MovieRequest>()
     private val topRatedRequest = MutableLiveData<MovieRequest>()
+    private val detailRequest = MutableLiveData<MovieDetailRequest>()
     private val configurationRequest = MutableLiveData<String>()
 
     val listNowPlayingMovie: LiveData<Resource<MovieResult>> = Transformations
@@ -52,6 +51,15 @@ class HomePageViewModel(repository: MovieRepository) : BaseViewModel() {
 
     fun getTopRatedMovie(request: MovieRequest) {
         topRatedRequest.value = request
+    }
+
+    val detailMovie: LiveData<Resource<MovieDetailResult>> = Transformations
+        .switchMap(detailRequest) {
+            repository.getDetailMovie(it)
+        }
+
+    fun getDetailMovie(request: MovieDetailRequest) {
+        detailRequest.value = request
     }
 
     val configuration: LiveData<Resource<ConfirgurationResult>> = Transformations

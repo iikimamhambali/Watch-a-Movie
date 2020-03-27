@@ -5,9 +5,7 @@ import com.android.themoviedb.base.BaseRepo
 import com.android.themoviedb.helper.ApiResponse
 import com.android.themoviedb.helper.AppExecutors
 import com.android.themoviedb.helper.Resource
-import com.android.themoviedb.model.ConfirgurationResult
-import com.android.themoviedb.model.MovieRequest
-import com.android.themoviedb.model.MovieResult
+import com.android.themoviedb.model.*
 import com.android.themoviedb.network.MovieServices
 
 class MovieRepository(
@@ -64,6 +62,20 @@ class MovieRepository(
                     request.region
                 )
             }
+        }.asLiveData()
+    }
+
+    fun getDetailMovie(request: MovieDetailRequest): LiveData<Resource<MovieDetailResult>> {
+        return object : BaseRepo<MovieDetailResult>(appExecutors) {
+            override fun loadFromNetwork(): LiveData<ApiResponse<MovieDetailResult>> {
+                return services.getDetailMovie(
+                    request.movieId,
+                    request.apiKey,
+                    request.language,
+                    request.appendRoResponse
+                )
+            }
+
         }.asLiveData()
     }
 

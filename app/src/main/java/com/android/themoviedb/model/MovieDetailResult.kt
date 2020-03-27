@@ -3,30 +3,30 @@ package com.android.themoviedb.model
 import com.google.gson.annotations.SerializedName
 import java.util.*
 
-data class LatestResult(
+data class MovieDetailResult(
     @SerializedName("adult") val adult: Boolean,
-    @SerializedName("backdrop_path") val backdropPath: Objects,
-    @SerializedName("belongs_to_collection") val belongsCollection: Objects,
+    @SerializedName("backdrop_path") val backdropPath: String,
+    @SerializedName("belongs_to_collection") val belongsToCollection: Objects,
     @SerializedName("budget") val budget: Int,
-    @SerializedName("genres") val genres: MutableList<String>,
+    @SerializedName("genres") val genres: MutableList<Genre>,
     @SerializedName("homepage") val homepage: String,
     @SerializedName("id") val id: Int,
-    @SerializedName("imdb_id") val imbId: Objects,
-    @SerializedName("original_language") val originLanguage: String,
+    @SerializedName("imdb_id") val imdbId: String,
+    @SerializedName("original_language") val originalLanguage: String,
     @SerializedName("original_title") val originalTitle: String,
     @SerializedName("overview") val overview: String,
-    @SerializedName("popularity") val popularity: Int,
-    @SerializedName("poster_path") val posterPath: Objects,
-    @SerializedName("production_companies") val productCompanies: MutableList<Objects>,
-    @SerializedName("production_countries") val productCountries: MutableList<Objects>,
+    @SerializedName("popularity") val popularity: Double,
+    @SerializedName("poster_path") val posterPath: String,
+    @SerializedName("production_companies") val productionCompanies: MutableList<ProductionCompany>,
+    @SerializedName("production_countries") val productionCountries: MutableList<ProductionCountry>,
     @SerializedName("release_date") val releaseDate: String,
     @SerializedName("revenue") val revenue: Int,
     @SerializedName("runtime") val runtime: Int,
-    @SerializedName("spoken_languages") val spokenLanguages: MutableList<Objects>,
+    @SerializedName("spoken_languages") val spokenLanguages: MutableList<SpokenLanguage>,
     @SerializedName("status") val status: String,
     @SerializedName("tagline") val tagLine: String,
     @SerializedName("title") val title: String,
     @SerializedName("video") val video: Boolean,
-    @SerializedName("vote_average") val voteAverage: Int,
+    @SerializedName("vote_average") val voteAverage: Double,
     @SerializedName("vote_count") val voteCount: Int
 )
