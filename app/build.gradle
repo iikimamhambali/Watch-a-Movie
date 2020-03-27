@@ -88,7 +88,7 @@ dependencies {
     implementation supportDependencies.coreKtx
     implementation supportDependencies.coreKtx
     implementation supportDependencies.recyclerView
-    implementation supportDependencies.recyclerView
+    implementation supportDependencies.design
     implementation supportDependencies.cardView
     implementation supportDependencies.constrainLayout
 

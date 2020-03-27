@@ -6,27 +6,27 @@ import androidx.lifecycle.Observer
 import com.android.themoviedb.R
 import com.android.themoviedb.base.BaseActivity
 import com.android.themoviedb.base.BaseRecyclerView
-import com.android.themoviedb.model.Images
 import com.android.themoviedb.model.MovieList
 import com.android.themoviedb.model.NowPlayingRequest
 import com.android.themoviedb.ui.HomePage.HomePageViewModel
 import com.android.themoviedb.ui.HomePage.adapter.HomePageAdapter
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.layout_bottom_sheet_category.view.*
 import kotlinx.android.synthetic.main.layout_toolbar_default.*
 import org.jetbrains.anko.toast
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class MainActivity : BaseActivity() {
 
-    private var resultItems = mutableListOf<MovieList>()
+    private val viewModel by viewModel<HomePageViewModel>()
 
+    private var resultItems = mutableListOf<MovieList>()
     private val adapterMovie by lazy { HomePageAdapter(resultItems) }
 
     companion object {
         const val LANGUAGE = "en-US"
     }
-
-    private val viewModel by viewModel<HomePageViewModel>()
 
     override fun getLayoutResId(): Int = R.layout.activity_main
 
@@ -54,10 +54,32 @@ class MainActivity : BaseActivity() {
 
     private fun setupListener() {
         setOnClickToolbar()
+        setOnClickCategory()
     }
 
     private fun setOnClickToolbar() {
-        ivFavorite.setOnClickListener { toast("Favorite") }
+        ivFavorite.setOnClickListener {
+            toast("Favorite")
+        }
+    }
+
+    private fun setOnClickCategory() {
+        btnCategory.setOnClickListener {
+            val dialog = BottomSheetDialog(this)
+            val dialogView: View = layoutInflater.inflate(R.layout.layout_bottom_sheet_category,
+                null)
+
+            with(dialogView) {
+                this.tvPopular.setOnClickListener { toast("popular") }
+                this.tvUpComing.setOnClickListener { toast("upcoming") }
+                this.tvTopRated.setOnClickListener { toast("top rated") }
+                this.tvNowPlaying.setOnClickListener { toast("now playing") }
+            }
+            dialog.apply {
+                setContentView(dialogView)
+                show()
+            }
+        }
     }
 
     private fun addData(data: List<MovieList>) {
