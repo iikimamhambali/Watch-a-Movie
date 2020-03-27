@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">What a Movie</string>
+    <string name="label_category">Category</string>
 </resources>
