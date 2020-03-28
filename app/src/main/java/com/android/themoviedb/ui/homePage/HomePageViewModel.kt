@@ -15,6 +15,7 @@ class HomePageViewModel(repository: MovieRepository) : BaseViewModel() {
     private val upComingRequest = MutableLiveData<MovieRequest>()
     private val topRatedRequest = MutableLiveData<MovieRequest>()
     private val detailRequest = MutableLiveData<MovieDetailRequest>()
+    private val reviewRequest = MutableLiveData<MovieReviewRequest>()
     private val configurationRequest = MutableLiveData<String>()
 
     val listNowPlayingMovie: LiveData<Resource<MovieResult>> = Transformations
@@ -60,6 +61,15 @@ class HomePageViewModel(repository: MovieRepository) : BaseViewModel() {
 
     fun getDetailMovie(request: MovieDetailRequest) {
         detailRequest.value = request
+    }
+
+    val reviewMovie: LiveData<Resource<MovieReviewResult>> = Transformations
+        .switchMap(reviewRequest) {
+            repository.getReviewMovie(it)
+        }
+
+    fun getReviewMovie(request: MovieReviewRequest) {
+        reviewRequest.value = request
     }
 
     val configuration: LiveData<Resource<ConfirgurationResult>> = Transformations

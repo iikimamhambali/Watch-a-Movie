@@ -140,6 +140,31 @@ class MovieRepository(
         }.asLiveData()
     }
 
+    fun getReviewMovie(requset: MovieReviewRequest): LiveData<Resource<MovieReviewResult>> {
+        return object : BaseRepo<MovieReviewResult>(appExecutors) {
+            override fun saveFromNetwork(item: MovieReviewResult) {
+
+            }
+
+            override fun shouldFetchFromNetwork(data: MovieReviewResult?): Boolean {
+                return true
+            }
+
+            override fun loadFromLocal(): LiveData<MovieReviewResult> {
+                return AbsentLiveData.create()
+            }
+
+            override fun loadFromNetwork(): LiveData<ApiResponse<MovieReviewResult>> {
+                return services.getReviewMovie(
+                    requset.movieId,
+                    requset.apiKey,
+                    requset.language,
+                    requset.page
+                )
+            }
+        }.asLiveData()
+    }
+
     fun getConfiguration(key: String): LiveData<Resource<ConfirgurationResult>> {
         return object : BaseRepo<ConfirgurationResult>(appExecutors) {
             override fun saveFromNetwork(item: ConfirgurationResult) {
