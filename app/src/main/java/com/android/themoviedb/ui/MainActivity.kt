@@ -11,6 +11,7 @@ import com.android.themoviedb.model.MovieRequest
 import com.android.themoviedb.ui.detail.DetailMovieActivity
 import com.android.themoviedb.ui.detail.DetailMovieActivity.Companion.MOVIE_ID
 import com.android.themoviedb.ui.detail.DetailMovieActivity.Companion.TITLE_MOVIE
+import com.android.themoviedb.ui.favorite.FavoriteActivity
 import com.android.themoviedb.ui.homePage.HomePageViewModel
 import com.android.themoviedb.ui.homePage.adapter.HomePageAdapter
 import com.android.themoviedb.ui.homePage.adapter.HomePageViewHolder
@@ -64,6 +65,7 @@ class MainActivity : BaseActivity(), HomePageViewHolder.SetItemListener {
 
     private fun setOnClickToolbar() {
         ivFavorite.setOnClickListener {
+            startActivity<FavoriteActivity>()
         }
     }
 
