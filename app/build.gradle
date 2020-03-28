@@ -101,6 +101,7 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     kapt archLifecycle.archRoomCompiler
     kapt archLifecycle.archCompiler
+    kapt archLifecycle.archRoomPersistanceCompile
 
     testImplementation testLibraries.junit
 

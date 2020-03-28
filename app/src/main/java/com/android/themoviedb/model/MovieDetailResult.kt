@@ -1,24 +1,19 @@
 package com.android.themoviedb.model
 
-import android.os.Parcelable
 import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
-import kotlinx.android.parcel.Parcelize
 
-@Parcelize
-@Entity(
-    tableName = "table_detail",
-    primaryKeys = ["id"]
-)
-
+@Entity(tableName = "table_detail")
 data class MovieDetailResult(
+    @PrimaryKey
+    @SerializedName("id") val id: Int,
     @SerializedName("adult") val adult: Boolean,
     @SerializedName("backdrop_path") val backdropPath: String,
     @SerializedName("belongs_to_collection") val belongsToCollection: BelongsCollection? = null,
     @SerializedName("budget") val budget: Int,
     @SerializedName("genres") val genres: MutableList<Genre>? = mutableListOf(),
     @SerializedName("homepage") val homepage: String,
-    @SerializedName("id") val id: Int,
     @SerializedName("imdb_id") val imdbId: String,
     @SerializedName("original_language") val originalLanguage: String,
     @SerializedName("original_title") val originalTitle: String,
@@ -37,4 +32,4 @@ data class MovieDetailResult(
     @SerializedName("video") val video: Boolean,
     @SerializedName("vote_average") val voteAverage: Double,
     @SerializedName("vote_count") val voteCount: Int
-) : Parcelable
+)

@@ -120,6 +120,7 @@ class DetailMovieActivity : BaseActivity() {
         super.observeData()
         viewModel.detailMovie.observe(this, Observer {
             parseObserveData(it, resultSuccess = { result, _ ->
+                resultDetail = result
                 setupContentData(result)
             })
         })
