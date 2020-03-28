@@ -8,6 +8,7 @@ object LocalDatabseFactory {
     fun makeLocalDatabase(context: Context): LocalDatabase {
         return Room.databaseBuilder(context, LocalDatabase::class.java, "tga.db")
             .fallbackToDestructiveMigration()
+            .allowMainThreadQueries()
             .build()
     }
 

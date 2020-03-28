@@ -10,10 +10,8 @@ import com.android.themoviedb.helper.checkPermissionResults
 import com.android.themoviedb.helper.hasPermissions
 import com.android.themoviedb.helper.loadFromUrlWithPlaceholder
 import com.android.themoviedb.helper.runTimePermissions
-import com.android.themoviedb.model.MovieDetailRequest
-import com.android.themoviedb.model.MovieDetailResult
-import com.android.themoviedb.model.MovieReviewList
-import com.android.themoviedb.model.MovieReviewRequest
+import com.android.themoviedb.local.RepositoryDao
+import com.android.themoviedb.model.*
 import com.android.themoviedb.ui.detail.adapter.ReviewAdapter
 import com.android.themoviedb.ui.homePage.HomePageViewModel
 import kotlinx.android.synthetic.main.activity_detail_movie.*
@@ -25,11 +23,13 @@ class DetailMovieActivity : BaseActivity() {
 
     private val viewModel by viewModel<HomePageViewModel>()
 
+    private lateinit var resultDetail: MovieDetailResult
     private val resultList = mutableListOf<MovieReviewList>()
     private val adapterReview by lazy { ReviewAdapter(resultList) }
 
     private var movieId = 0
     private var titleMovie = ""
+    private val dao: RepositoryDao? = null
 
     companion object {
         const val MOVIE_ID = "movie_id"
@@ -95,7 +95,7 @@ class DetailMovieActivity : BaseActivity() {
     private fun setOnClickFavorite() {
         ivFavoriteMovie.setOnClickListener {
             when (hasPermissions(permissions)) {
-                true -> toast("Permission Success")
+                true -> dao?.saveFavorite(resultDetail)
                 else -> runTimePermissions(permissions, PERMISSION_REQUEST)
             }
         }
@@ -153,7 +153,7 @@ class DetailMovieActivity : BaseActivity() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == PERMISSION_REQUEST) {
             when (checkPermissionResults(grantResults)) {
-                true -> toast("Success")
+                true -> dao?.saveFavorite(resultDetail)
             }
         }
     }
