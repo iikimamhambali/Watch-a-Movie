@@ -11,7 +11,19 @@ abstract class BaseRepo<Type>(private val appExecutors: AppExecutors) {
     private val result = MediatorLiveData<Resource<Type>>()
 
     init {
-        fetchFromNetwork()
+        result.value = Resource.loading(null)
+        @Suppress("LeakingThis")
+        val dbSource = loadFromLocal()
+        result.addSource(dbSource) { data ->
+            result.removeSource(dbSource)
+            if (shouldFetchFromNetwork(data)) {
+                fetchFromNetwork(dbSource)
+            } else {
+                result.addSource(dbSource) { newData ->
+                    setValue(Resource.success(newData))
+                }
+            }
+        }
     }
 
     @MainThread
@@ -21,19 +33,21 @@ abstract class BaseRepo<Type>(private val appExecutors: AppExecutors) {
         }
     }
 
-    private fun fetchFromNetwork() {
+    private fun fetchFromNetwork(dbSource: LiveData<Type>) {
         val apiResponse = loadFromNetwork()
+        result.addSource(dbSource) { newData ->
+            setValue(Resource.loading(newData))
+        }
         setValue(Resource.loading())
         result.addSource(apiResponse) { response ->
             result.removeSource(apiResponse)
+            result.removeSource(dbSource)
             when (response) {
                 is ApiSuccessResponse -> {
                     appExecutors.diskIO().execute {
                         val newResponse = processResponse(response)
+                        saveFromNetwork(newResponse)
                         appExecutors.mainThread().execute {
-                            // we specially request a new live data,
-                            // otherwise we will get immediately last cached value,
-                            // which may not be updated with latest results received from network.
                             result.addSource(apiResponse) {
                                 setValue(Resource.success(newResponse))
                             }
@@ -59,6 +73,15 @@ abstract class BaseRepo<Type>(private val appExecutors: AppExecutors) {
 
     @WorkerThread
     protected open fun processResponse(response: ApiSuccessResponse<Type>) = response.body
+
+    @WorkerThread
+    protected abstract fun saveFromNetwork(item: Type)
+
+    @MainThread
+    protected abstract fun shouldFetchFromNetwork(data: Type?): Boolean
+
+    @MainThread
+    protected abstract fun loadFromLocal(): LiveData<Type>
 
     @MainThread
     protected abstract fun loadFromNetwork(): LiveData<ApiResponse<Type>>

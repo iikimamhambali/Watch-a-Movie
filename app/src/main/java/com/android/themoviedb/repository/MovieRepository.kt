@@ -2,6 +2,7 @@ package com.android.themoviedb.repository
 
 import androidx.lifecycle.LiveData
 import com.android.themoviedb.base.BaseRepo
+import com.android.themoviedb.helper.AbsentLiveData
 import com.android.themoviedb.helper.ApiResponse
 import com.android.themoviedb.helper.AppExecutors
 import com.android.themoviedb.helper.Resource
@@ -15,6 +16,18 @@ class MovieRepository(
 
     fun getNowPlaying(request: MovieRequest): LiveData<Resource<MovieResult>> {
         return object : BaseRepo<MovieResult>(appExecutors) {
+            override fun saveFromNetwork(item: MovieResult) {
+
+            }
+
+            override fun shouldFetchFromNetwork(data: MovieResult?): Boolean {
+                return true
+            }
+
+            override fun loadFromLocal(): LiveData<MovieResult> {
+                return AbsentLiveData.create()
+            }
+
             override fun loadFromNetwork(): LiveData<ApiResponse<MovieResult>> {
                 return services.getNowPlaying(
                     request.apiKey,
@@ -28,6 +41,18 @@ class MovieRepository(
 
     fun getPopular(request: MovieRequest): LiveData<Resource<MovieResult>> {
         return object : BaseRepo<MovieResult>(appExecutors) {
+            override fun saveFromNetwork(item: MovieResult) {
+
+            }
+
+            override fun shouldFetchFromNetwork(data: MovieResult?): Boolean {
+                return true
+            }
+
+            override fun loadFromLocal(): LiveData<MovieResult> {
+                return AbsentLiveData.create()
+            }
+
             override fun loadFromNetwork(): LiveData<ApiResponse<MovieResult>> {
                 return services.getPopular(
                     request.apiKey,
@@ -41,6 +66,18 @@ class MovieRepository(
 
     fun getUpComing(request: MovieRequest): LiveData<Resource<MovieResult>> {
         return object : BaseRepo<MovieResult>(appExecutors) {
+            override fun saveFromNetwork(item: MovieResult) {
+
+            }
+
+            override fun shouldFetchFromNetwork(data: MovieResult?): Boolean {
+                return true
+            }
+
+            override fun loadFromLocal(): LiveData<MovieResult> {
+                return AbsentLiveData.create()
+            }
+
             override fun loadFromNetwork(): LiveData<ApiResponse<MovieResult>> {
                 return services.getUpComing(
                     request.apiKey,
@@ -54,6 +91,18 @@ class MovieRepository(
 
     fun getTopRated(request: MovieRequest): LiveData<Resource<MovieResult>> {
         return object : BaseRepo<MovieResult>(appExecutors) {
+            override fun saveFromNetwork(item: MovieResult) {
+
+            }
+
+            override fun shouldFetchFromNetwork(data: MovieResult?): Boolean {
+                return true
+            }
+
+            override fun loadFromLocal(): LiveData<MovieResult> {
+                return AbsentLiveData.create()
+            }
+
             override fun loadFromNetwork(): LiveData<ApiResponse<MovieResult>> {
                 return services.getTopRated(
                     request.apiKey,
@@ -67,6 +116,18 @@ class MovieRepository(
 
     fun getDetailMovie(request: MovieDetailRequest): LiveData<Resource<MovieDetailResult>> {
         return object : BaseRepo<MovieDetailResult>(appExecutors) {
+            override fun saveFromNetwork(item: MovieDetailResult) {
+
+            }
+
+            override fun shouldFetchFromNetwork(data: MovieDetailResult?): Boolean {
+                return true
+            }
+
+            override fun loadFromLocal(): LiveData<MovieDetailResult> {
+                return AbsentLiveData.create()
+            }
+
             override fun loadFromNetwork(): LiveData<ApiResponse<MovieDetailResult>> {
                 return services.getDetailMovie(
                     request.movieId,
@@ -81,6 +142,18 @@ class MovieRepository(
 
     fun getConfiguration(key: String): LiveData<Resource<ConfirgurationResult>> {
         return object : BaseRepo<ConfirgurationResult>(appExecutors) {
+            override fun saveFromNetwork(item: ConfirgurationResult) {
+
+            }
+
+            override fun shouldFetchFromNetwork(data: ConfirgurationResult?): Boolean {
+                return true
+            }
+
+            override fun loadFromLocal(): LiveData<ConfirgurationResult> {
+                return AbsentLiveData.create()
+            }
+
             override fun loadFromNetwork(): LiveData<ApiResponse<ConfirgurationResult>> {
                 return services.getConfiguration(key)
             }
