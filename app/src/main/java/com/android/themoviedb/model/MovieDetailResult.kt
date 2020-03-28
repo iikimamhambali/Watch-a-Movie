@@ -1,12 +1,11 @@
 package com.android.themoviedb.model
 
 import com.google.gson.annotations.SerializedName
-import java.util.*
 
 data class MovieDetailResult(
     @SerializedName("adult") val adult: Boolean,
     @SerializedName("backdrop_path") val backdropPath: String,
-    @SerializedName("belongs_to_collection") val belongsToCollection: Objects,
+    @SerializedName("belongs_to_collection") val belongsToCollection: BelongsCollection,
     @SerializedName("budget") val budget: Int,
     @SerializedName("genres") val genres: MutableList<Genre>,
     @SerializedName("homepage") val homepage: String,
