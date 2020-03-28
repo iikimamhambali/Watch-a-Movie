@@ -5,17 +5,25 @@ import android.view.View
 import androidx.lifecycle.Observer
 import com.android.themoviedb.R
 import com.android.themoviedb.base.BaseActivity
+import com.android.themoviedb.base.BaseRecyclerView
 import com.android.themoviedb.helper.loadFromUrlWithPlaceholder
 import com.android.themoviedb.model.MovieDetailRequest
 import com.android.themoviedb.model.MovieDetailResult
+import com.android.themoviedb.model.MovieReviewList
+import com.android.themoviedb.model.MovieReviewRequest
+import com.android.themoviedb.ui.detail.adapter.ReviewAdapter
 import com.android.themoviedb.ui.homePage.HomePageViewModel
 import kotlinx.android.synthetic.main.activity_detail_movie.*
 import kotlinx.android.synthetic.main.layout_toolbar_default.*
+import org.jetbrains.anko.toast
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class DetailMovieActivity : BaseActivity() {
 
     private val viewModel by viewModel<HomePageViewModel>()
+
+    private val resultList = mutableListOf<MovieReviewList>()
+    private val adapterReview by lazy { ReviewAdapter(resultList) }
 
     private var movieId = 0
     private var titleMovie = ""
@@ -32,6 +40,7 @@ class DetailMovieActivity : BaseActivity() {
         super.initView(savedInstanceState)
         getIntentData()
         setupToolbar()
+        setupRecyclerView()
     }
 
     override fun initEvent() {
@@ -51,6 +60,12 @@ class DetailMovieActivity : BaseActivity() {
         tvToolbarInfoTitle.text = titleMovie
     }
 
+    private fun setupRecyclerView() {
+        with(rvReview) {
+            initRecyclerView(adapterReview, BaseRecyclerView.LayoutManager.VERTICAL)
+        }
+    }
+
     private fun setupContentData(resultData: MovieDetailResult) {
         val imageUrl = "https://image.tmdb.org/t/p/w500" + resultData.posterPath
         ivThumbnailMovie.loadFromUrlWithPlaceholder(
@@ -67,10 +82,18 @@ class DetailMovieActivity : BaseActivity() {
         ivToolbarBack.setOnClickListener { finish() }
     }
 
+    private fun addData(data: List<MovieReviewList>) {
+        resultList.clear()
+        resultList.addAll(data)
+        adapterReview.notifyDataSetChanged()
+    }
+
     override fun loadingData(isFromSwipe: Boolean) {
         super.loadingData(isFromSwipe)
         val requestData = MovieDetailRequest(movieId, getString(R.string.api_key), LANGUAGE, "")
+        val requestReview = MovieReviewRequest(movieId, getString(R.string.api_key), LANGUAGE, 1)
         viewModel.getDetailMovie(requestData)
+        viewModel.getReviewMovie(requestReview)
     }
 
     override fun observeData() {
@@ -78,6 +101,17 @@ class DetailMovieActivity : BaseActivity() {
         viewModel.detailMovie.observe(this, Observer {
             parseObserveData(it, resultSuccess = { result, _ ->
                 setupContentData(result)
+            })
+        })
+
+        viewModel.reviewMovie.observe(this, Observer {
+            parseObserveData(it, resultSuccess = { result, pagination ->
+                if (result.results.isNullOrEmpty()) {
+                    toast("Empty Review")
+                    return@parseObserveData
+                }
+
+                addData(result.results)
             })
         })
     }
