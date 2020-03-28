@@ -6,7 +6,10 @@ import androidx.lifecycle.Observer
 import com.android.themoviedb.R
 import com.android.themoviedb.base.BaseActivity
 import com.android.themoviedb.base.BaseRecyclerView
+import com.android.themoviedb.helper.checkPermissionResults
+import com.android.themoviedb.helper.hasPermissions
 import com.android.themoviedb.helper.loadFromUrlWithPlaceholder
+import com.android.themoviedb.helper.runTimePermissions
 import com.android.themoviedb.model.MovieDetailRequest
 import com.android.themoviedb.model.MovieDetailResult
 import com.android.themoviedb.model.MovieReviewList
@@ -32,6 +35,7 @@ class DetailMovieActivity : BaseActivity() {
         const val MOVIE_ID = "movie_id"
         const val TITLE_MOVIE = "title_movie"
         const val LANGUAGE = "en-US"
+        const val PERMISSION_REQUEST = 100
     }
 
     override fun getLayoutResId(): Int = R.layout.activity_detail_movie
@@ -46,6 +50,7 @@ class DetailMovieActivity : BaseActivity() {
     override fun initEvent() {
         super.initEvent()
         setOnClickToolbar()
+        setOnClickFavorite()
     }
 
     private fun getIntentData() {
@@ -82,6 +87,20 @@ class DetailMovieActivity : BaseActivity() {
         ivToolbarBack.setOnClickListener { finish() }
     }
 
+    private val permissions = arrayOf(
+        android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
+        android.Manifest.permission.READ_EXTERNAL_STORAGE
+    )
+
+    private fun setOnClickFavorite() {
+        ivFavoriteMovie.setOnClickListener {
+            when (hasPermissions(permissions)) {
+                true -> toast("Permission Success")
+                else -> runTimePermissions(permissions, PERMISSION_REQUEST)
+            }
+        }
+    }
+
     private fun addData(data: List<MovieReviewList>) {
         resultList.clear()
         resultList.addAll(data)
@@ -91,7 +110,8 @@ class DetailMovieActivity : BaseActivity() {
     override fun loadingData(isFromSwipe: Boolean) {
         super.loadingData(isFromSwipe)
         val requestData = MovieDetailRequest(movieId, getString(R.string.api_key), LANGUAGE, "")
-        val requestReview = MovieReviewRequest(movieId, getString(R.string.api_key), LANGUAGE, 1)
+        val requestReview =
+            MovieReviewRequest(movieId, getString(R.string.api_key), LANGUAGE, 1)
         viewModel.getDetailMovie(requestData)
         viewModel.getReviewMovie(requestReview)
     }
@@ -110,7 +130,6 @@ class DetailMovieActivity : BaseActivity() {
                     toast("Empty Review")
                     return@parseObserveData
                 }
-
                 addData(result.results)
             })
         })
@@ -124,5 +143,18 @@ class DetailMovieActivity : BaseActivity() {
     override fun stopLoading() {
         progressDetail.visibility = View.GONE
         progressDetail.stopShimmer()
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == PERMISSION_REQUEST) {
+            when (checkPermissionResults(grantResults)) {
+                true -> toast("Success")
+            }
+        }
     }
 }
