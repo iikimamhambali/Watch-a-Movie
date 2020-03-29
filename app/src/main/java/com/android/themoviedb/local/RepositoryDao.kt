@@ -13,4 +13,7 @@ interface RepositoryDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun saveFavorite(movieDetail: MovieDetailDatabase)
+
+    @Query("DELETE FROM table_detail WHERE id = :id")
+    fun delete(id: Int)
 }

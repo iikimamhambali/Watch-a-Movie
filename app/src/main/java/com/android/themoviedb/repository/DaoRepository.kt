@@ -17,4 +17,8 @@ class DaoRepository(
 
     fun getAllData(): LiveData<List<MovieDetailAdapter>> =
         repositoryDao.getAllFavorite()
+
+    fun deleteItem(id: Int) {
+        repositoryDao.delete(id)
+    }
 }

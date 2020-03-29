@@ -1,7 +1,6 @@
 package com.android.themoviedb.ui.favorite
 
 import android.os.Bundle
-import android.util.Log.d
 import android.view.View
 import androidx.lifecycle.Observer
 import com.android.themoviedb.R
@@ -57,7 +56,7 @@ class FavoriteActivity : BaseActivity(), FavoriteViewHolder.SetItemListener {
     }
 
     override fun onClickRemove(items: MovieDetailAdapter) {
-        d("LOGLOG", items.toString())
+        items.id?.let { viewModelDao.deleteItem(it) }
     }
 
     override fun observeData() {

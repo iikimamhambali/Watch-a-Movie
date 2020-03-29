@@ -22,4 +22,8 @@ class DaoViewModel(private val repository: DaoRepository) : BaseViewModel() {
     fun getAllData(): LiveData<List<MovieDetailAdapter>> {
         return data
     }
+
+    fun deleteItem(id: Int) {
+        repository.deleteItem(id)
+    }
 }
