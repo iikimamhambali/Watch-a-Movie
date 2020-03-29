@@ -1,4 +1,4 @@
-package com.android.themoviedb.ui.homePage
+package com.android.themoviedb.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -8,7 +8,7 @@ import com.android.themoviedb.helper.Resource
 import com.android.themoviedb.model.*
 import com.android.themoviedb.repository.MovieRepository
 
-class HomePageViewModel(repository: MovieRepository) : BaseViewModel() {
+class MovieViewModel(repository: MovieRepository) : BaseViewModel() {
 
     private val nowPlayingRequest = MutableLiveData<MovieRequest>()
     private val popularRequest = MutableLiveData<MovieRequest>()

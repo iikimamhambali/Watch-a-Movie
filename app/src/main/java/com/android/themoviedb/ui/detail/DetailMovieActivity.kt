@@ -1,6 +1,7 @@
 package com.android.themoviedb.ui.detail
 
 import android.os.Bundle
+import android.util.Log.d
 import android.view.View
 import androidx.lifecycle.Observer
 import com.android.themoviedb.R
@@ -12,20 +13,22 @@ import com.android.themoviedb.helper.loadFromUrlWithPlaceholder
 import com.android.themoviedb.helper.runTimePermissions
 import com.android.themoviedb.local.RepositoryDao
 import com.android.themoviedb.model.*
+import com.android.themoviedb.ui.detail.adapter.CompanyAdapter
 import com.android.themoviedb.ui.detail.adapter.ReviewAdapter
-import com.android.themoviedb.ui.homePage.HomePageViewModel
+import com.android.themoviedb.viewmodel.MovieViewModel
 import kotlinx.android.synthetic.main.activity_detail_movie.*
 import kotlinx.android.synthetic.main.layout_toolbar_default.*
-import org.jetbrains.anko.toast
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class DetailMovieActivity : BaseActivity() {
 
-    private val viewModel by viewModel<HomePageViewModel>()
+    private val viewModel by viewModel<MovieViewModel>()
 
     private lateinit var resultDetail: MovieDetailResult
     private val resultList = mutableListOf<MovieReviewList>()
+    private var resultCompany = mutableListOf<ProductionCompany>()
     private val adapterReview by lazy { ReviewAdapter(resultList) }
+    private val adapterCompany by lazy { CompanyAdapter(resultCompany) }
 
     private var movieId = 0
     private var titleMovie = ""
@@ -69,15 +72,21 @@ class DetailMovieActivity : BaseActivity() {
         with(rvReview) {
             initRecyclerView(adapterReview, BaseRecyclerView.LayoutManager.VERTICAL)
         }
+
+        with(rvCompany) {
+            initRecyclerView(adapterCompany, BaseRecyclerView.LayoutManager.HORIZONTAL)
+            initItemDecoration(4)
+        }
     }
 
     private fun setupContentData(resultData: MovieDetailResult) {
-        val imageUrl = "https://image.tmdb.org/t/p/w500" + resultData.posterPath
+        val imageUrl = "https://image.tmdb.org/t/p/w500" + resultData.backdropPath
         ivThumbnailMovie.loadFromUrlWithPlaceholder(
             imageUrl,
             R.drawable.ic_thumbnails,
             R.drawable.ic_thumbnails
         )
+        tvVoteAverage.text = resultData.voteAverage.toString()
         tvTitle.text = resultData.title
         tvReleaseDate.text = resultData.releaseDate
         tvDescription.text = resultData.overview
@@ -95,7 +104,10 @@ class DetailMovieActivity : BaseActivity() {
     private fun setOnClickFavorite() {
         ivFavoriteMovie.setOnClickListener {
             when (hasPermissions(permissions)) {
-                true -> dao?.saveFavorite(resultDetail)
+                true -> {
+                    dao?.saveFavorite(resultDetail)
+                    d("LOGLOG", resultDetail.toString())
+                }
                 else -> runTimePermissions(permissions, PERMISSION_REQUEST)
             }
         }
@@ -105,6 +117,12 @@ class DetailMovieActivity : BaseActivity() {
         resultList.clear()
         resultList.addAll(data)
         adapterReview.notifyDataSetChanged()
+    }
+
+    private fun addDataCompany(data: List<ProductionCompany>) {
+        resultCompany.clear()
+        resultCompany.addAll(data)
+        adapterCompany.notifyDataSetChanged()
     }
 
     override fun loadingData(isFromSwipe: Boolean) {
@@ -122,28 +140,18 @@ class DetailMovieActivity : BaseActivity() {
             parseObserveData(it, resultSuccess = { result, _ ->
                 resultDetail = result
                 setupContentData(result)
+                addDataCompany(result.productionCompanies)
             })
         })
 
         viewModel.reviewMovie.observe(this, Observer {
             parseObserveData(it, resultSuccess = { result, pagination ->
                 if (result.results.isNullOrEmpty()) {
-                    toast("Empty Review")
                     return@parseObserveData
                 }
                 addData(result.results)
             })
         })
-    }
-
-    override fun startLoading() {
-        progressDetail.visibility = View.VISIBLE
-        progressDetail.startShimmer()
-    }
-
-    override fun stopLoading() {
-        progressDetail.visibility = View.GONE
-        progressDetail.stopShimmer()
     }
 
     override fun onRequestPermissionsResult(
