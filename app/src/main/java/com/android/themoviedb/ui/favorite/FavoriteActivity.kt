@@ -27,6 +27,7 @@ class FavoriteActivity : BaseActivity(), FavoriteViewHolder.SetItemListener {
         super.initView(savedInstanceState)
         setupToolbar()
         setupRecyclerView()
+        setContentVisibility(true)
     }
 
     override fun initEvent() {
@@ -55,12 +56,34 @@ class FavoriteActivity : BaseActivity(), FavoriteViewHolder.SetItemListener {
         adapterFavorite.notifyDataSetChanged()
     }
 
+    private fun setContentVisibility(visible: Boolean) {
+        when (visible) {
+            true -> {
+                sectionEmptyState.visibility = View.GONE
+                nestedHome.visibility = View.VISIBLE
+            }
+            else -> {
+                nestedHome.visibility = View.GONE
+                sectionEmptyState.visibility = View.VISIBLE
+            }
+        }
+    }
+
     override fun onClickRemove(items: MovieDetailAdapter) {
         items.id?.let { viewModelDao.deleteItem(it) }
     }
 
     override fun observeData() {
         super.observeData()
-        viewModelDao.getAllData().observe(this, Observer { addData(it) })
+        viewModelDao.getAllData().observe(this, Observer {
+            when (it.isNotEmpty()) {
+                true -> addData(it)
+                else -> onDataNotFound()
+            }
+        })
+    }
+
+    override fun onDataNotFound() {
+        setContentVisibility(false)
     }
 }

@@ -9,4 +9,6 @@
     <string name="label_favorite">Favorite Movie</string>
     <string name="label_production_company">Production Company</string>
     <string name="label_review">Review</string>
+    <string name="label_title_empty_favorite">Sorry... your favorite movie is gone</string>
+    <string name="label_subtitle_empty_favorite">Choose your favorite movie</string>
 </resources>
