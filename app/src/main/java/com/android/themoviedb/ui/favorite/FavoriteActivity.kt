@@ -7,10 +7,14 @@ import com.android.themoviedb.base.BaseActivity
 import com.android.themoviedb.base.BaseRecyclerView
 import com.android.themoviedb.model.MovieDetailResult
 import com.android.themoviedb.ui.favorite.adapter.FavoriteAdapter
+import com.android.themoviedb.viewmodel.MovieViewModel
 import kotlinx.android.synthetic.main.activity_favorite.*
 import kotlinx.android.synthetic.main.layout_toolbar_default.*
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class FavoriteActivity : BaseActivity() {
+
+    private val viewModel by viewModel<MovieViewModel>()
 
     private val resultList = mutableListOf<MovieDetailResult>()
     private val adapterFavorite by lazy { FavoriteAdapter(resultList) }

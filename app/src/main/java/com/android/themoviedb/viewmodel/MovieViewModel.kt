@@ -8,7 +8,7 @@ import com.android.themoviedb.helper.Resource
 import com.android.themoviedb.model.*
 import com.android.themoviedb.repository.MovieRepository
 
-class MovieViewModel(repository: MovieRepository) : BaseViewModel() {
+class MovieViewModel(private val repository: MovieRepository) : BaseViewModel() {
 
     private val nowPlayingRequest = MutableLiveData<MovieRequest>()
     private val popularRequest = MutableLiveData<MovieRequest>()

@@ -8,6 +8,7 @@ fun makeLocalDatabase(
 ): LocalDatabase {
     return Room.databaseBuilder(context, LocalDatabase::class.java, "movie.db")
         .fallbackToDestructiveMigration()
+        .allowMainThreadQueries()
         .build()
 }
 

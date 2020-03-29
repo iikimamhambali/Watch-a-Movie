@@ -6,16 +6,15 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.android.themoviedb.model.MovieDetailDatabase
-import com.android.themoviedb.model.MovieDetailResult
 
 @Dao
 interface RepositoryDao {
 
     @Query("SELECT * FROM table_detail")
-    fun getAllFavorite(): LiveData<List<MovieDetailResult>>
+    fun getAllFavorite(): LiveData<List<MovieDetailDatabase>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun saveFavorite(repositoryList: MovieDetailResult)
+    fun saveFavorite(movieDetail: MovieDetailDatabase)
 
     @Query("DELETE FROM table_detail")
     fun deleteAll()

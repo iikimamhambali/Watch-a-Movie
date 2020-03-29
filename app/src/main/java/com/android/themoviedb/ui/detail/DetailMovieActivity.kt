@@ -1,7 +1,6 @@
 package com.android.themoviedb.ui.detail
 
 import android.os.Bundle
-import android.util.Log.d
 import android.view.View
 import androidx.lifecycle.Observer
 import com.android.themoviedb.R
@@ -11,18 +10,20 @@ import com.android.themoviedb.helper.checkPermissionResults
 import com.android.themoviedb.helper.hasPermissions
 import com.android.themoviedb.helper.loadFromUrlWithPlaceholder
 import com.android.themoviedb.helper.runTimePermissions
-import com.android.themoviedb.local.RepositoryDao
 import com.android.themoviedb.model.*
 import com.android.themoviedb.ui.detail.adapter.CompanyAdapter
 import com.android.themoviedb.ui.detail.adapter.ReviewAdapter
+import com.android.themoviedb.viewmodel.DaoViewModel
 import com.android.themoviedb.viewmodel.MovieViewModel
 import kotlinx.android.synthetic.main.activity_detail_movie.*
 import kotlinx.android.synthetic.main.layout_toolbar_default.*
+import org.jetbrains.anko.doAsync
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class DetailMovieActivity : BaseActivity() {
 
     private val viewModel by viewModel<MovieViewModel>()
+    private val viewModelDao by viewModel<DaoViewModel>()
 
     private lateinit var resultDetail: MovieDetailResult
     private val resultList = mutableListOf<MovieReviewList>()
@@ -32,7 +33,6 @@ class DetailMovieActivity : BaseActivity() {
 
     private var movieId = 0
     private var titleMovie = ""
-    private val dao: RepositoryDao? = null
 
     companion object {
         const val MOVIE_ID = "movie_id"
@@ -80,7 +80,11 @@ class DetailMovieActivity : BaseActivity() {
     }
 
     private fun setupContentData(resultData: MovieDetailResult) {
-        val imageUrl = "https://image.tmdb.org/t/p/w500" + resultData.backdropPath
+        val imageUrl = when (resultData.backdropPath.isEmpty()) {
+            true -> "https://image.tmdb.org/t/p/w500" + resultData.backdropPath
+            else -> ""
+        }
+
         ivThumbnailMovie.loadFromUrlWithPlaceholder(
             imageUrl,
             R.drawable.ic_thumbnails,
@@ -105,8 +109,9 @@ class DetailMovieActivity : BaseActivity() {
         ivFavoriteMovie.setOnClickListener {
             when (hasPermissions(permissions)) {
                 true -> {
-                    dao?.saveFavorite(resultDetail)
-                    d("LOGLOG", resultDetail.toString())
+                    doAsync {
+                        viewModelDao.storeDataMovie(resultDetail)
+                    }
                 }
                 else -> runTimePermissions(permissions, PERMISSION_REQUEST)
             }
@@ -162,7 +167,9 @@ class DetailMovieActivity : BaseActivity() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == PERMISSION_REQUEST) {
             when (checkPermissionResults(grantResults)) {
-                true -> dao?.saveFavorite(resultDetail)
+                true -> doAsync {
+                    viewModelDao.storeDataMovie(resultDetail)
+                }
             }
         }
     }
