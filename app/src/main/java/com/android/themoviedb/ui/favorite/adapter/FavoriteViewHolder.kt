@@ -4,12 +4,12 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.android.themoviedb.R
 import com.android.themoviedb.helper.loadFromUrlWithPlaceholder
-import com.android.themoviedb.model.MovieDetailResult
-import kotlinx.android.synthetic.main.layout_item_home_page.view.*
+import com.android.themoviedb.model.MovieDetailAdapter
+import kotlinx.android.synthetic.main.layout_item_movie.view.*
 
-class FavoriteViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+class FavoriteViewHolder(view: View, private val listener: SetItemListener) : RecyclerView.ViewHolder(view) {
 
-    fun bind(items: MovieDetailResult) {
+    fun bind(items: MovieDetailAdapter) {
         with(itemView) {
             val imageUrl = "https://image.tmdb.org/t/p/w500" + items.posterPath
             ivThumbnailMovie.loadFromUrlWithPlaceholder(
@@ -20,6 +20,13 @@ class FavoriteViewHolder(view: View) : RecyclerView.ViewHolder(view) {
             tvTitle.text = items.title
             tvReleaseDate.text = items.releaseDate
             tvDescription.text = items.overview
+            ivRemove.visibility = View.VISIBLE
+            ivRemove.setOnClickListener { listener.onClickRemove(items) }
         }
+    }
+
+    interface SetItemListener{
+
+        fun onClickRemove(items: MovieDetailAdapter)
     }
 }

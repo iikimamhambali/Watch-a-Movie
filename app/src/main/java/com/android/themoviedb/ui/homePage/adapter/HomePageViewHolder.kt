@@ -5,7 +5,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.android.themoviedb.R
 import com.android.themoviedb.helper.loadFromUrlWithPlaceholder
 import com.android.themoviedb.model.MovieList
-import kotlinx.android.synthetic.main.layout_item_home_page.view.*
+import kotlinx.android.synthetic.main.layout_item_movie.view.*
 
 class HomePageViewHolder(
     view: View, private val listener: SetItemListener

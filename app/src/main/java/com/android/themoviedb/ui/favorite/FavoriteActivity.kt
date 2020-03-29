@@ -1,23 +1,26 @@
 package com.android.themoviedb.ui.favorite
 
 import android.os.Bundle
+import android.util.Log.d
 import android.view.View
+import androidx.lifecycle.Observer
 import com.android.themoviedb.R
 import com.android.themoviedb.base.BaseActivity
 import com.android.themoviedb.base.BaseRecyclerView
-import com.android.themoviedb.model.MovieDetailResult
+import com.android.themoviedb.model.MovieDetailAdapter
 import com.android.themoviedb.ui.favorite.adapter.FavoriteAdapter
-import com.android.themoviedb.viewmodel.MovieViewModel
+import com.android.themoviedb.ui.favorite.adapter.FavoriteViewHolder
+import com.android.themoviedb.viewmodel.DaoViewModel
 import kotlinx.android.synthetic.main.activity_favorite.*
 import kotlinx.android.synthetic.main.layout_toolbar_default.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class FavoriteActivity : BaseActivity() {
+class FavoriteActivity : BaseActivity(), FavoriteViewHolder.SetItemListener {
 
-    private val viewModel by viewModel<MovieViewModel>()
+    private val viewModelDao by viewModel<DaoViewModel>()
 
-    private val resultList = mutableListOf<MovieDetailResult>()
-    private val adapterFavorite by lazy { FavoriteAdapter(resultList) }
+    private val resultList = mutableListOf<MovieDetailAdapter>()
+    private val adapterFavorite by lazy { FavoriteAdapter(resultList, this) }
 
     override fun getLayoutResId(): Int = R.layout.activity_favorite
 
@@ -45,5 +48,20 @@ class FavoriteActivity : BaseActivity() {
 
     private fun setupOnClickToolbar() {
         ivToolbarBack.setOnClickListener { finish() }
+    }
+
+    private fun addData(data: List<MovieDetailAdapter>) {
+        resultList.clear()
+        resultList.addAll(data)
+        adapterFavorite.notifyDataSetChanged()
+    }
+
+    override fun onClickRemove(items: MovieDetailAdapter) {
+        d("LOGLOG", items.toString())
+    }
+
+    override fun observeData() {
+        super.observeData()
+        viewModelDao.getAllData().observe(this, Observer { addData(it) })
     }
 }

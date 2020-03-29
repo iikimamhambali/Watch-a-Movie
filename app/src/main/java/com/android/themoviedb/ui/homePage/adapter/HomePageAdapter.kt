@@ -14,7 +14,7 @@ class HomePageAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomePageViewHolder =
         HomePageViewHolder(
             LayoutInflater.from(parent.context).inflate(
-                R.layout.layout_item_home_page,
+                R.layout.layout_item_movie,
                 parent,
                 false
             ), listener

@@ -2,7 +2,7 @@ package com.android.themoviedb.repository
 
 import androidx.lifecycle.LiveData
 import com.android.themoviedb.local.RepositoryDao
-import com.android.themoviedb.model.MovieDetailDatabase
+import com.android.themoviedb.model.MovieDetailAdapter
 import com.android.themoviedb.model.MovieDetailMapper
 import com.android.themoviedb.model.MovieDetailResult
 
@@ -15,6 +15,6 @@ class DaoRepository(
         repositoryDao.saveFavorite(mapper.transform(data))
     }
 
-    fun getAllData(): LiveData<List<MovieDetailDatabase>> =
+    fun getAllData(): LiveData<List<MovieDetailAdapter>> =
         repositoryDao.getAllFavorite()
 }

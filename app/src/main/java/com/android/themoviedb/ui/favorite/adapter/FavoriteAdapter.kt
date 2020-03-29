@@ -4,18 +4,21 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.android.themoviedb.R
-import com.android.themoviedb.model.MovieDetailResult
+import com.android.themoviedb.model.MovieDetailAdapter
 
-class FavoriteAdapter(private val items: MutableList<MovieDetailResult>) :
+class FavoriteAdapter(
+    private val items: MutableList<MovieDetailAdapter>,
+    private val listener: FavoriteViewHolder.SetItemListener
+) :
     RecyclerView.Adapter<FavoriteViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoriteViewHolder =
         FavoriteViewHolder(
             LayoutInflater.from(parent.context).inflate(
-                R.layout.layout_item_home_page,
+                R.layout.layout_item_movie,
                 parent,
                 false
-            )
+            ), listener
         )
 
     override fun getItemCount(): Int = items.size

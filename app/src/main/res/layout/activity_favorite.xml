@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
     tools:context=".ui.favorite.FavoriteActivity">
 
     <include
@@ -14,17 +15,38 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/nestedHome"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_height="0dp"
         app:layout_constraintEnd_toEndOf="@+id/toolbarFavorite"
         app:layout_constraintStart_toStartOf="@+id/toolbarFavorite"
         app:layout_constraintTop_toBottomOf="@+id/toolbarFavorite">
 
-        <com.android.themoviedb.base.BaseRecyclerView
-            android:id="@+id/rvFavorite"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/sectionList"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content">
+
+            <com.android.themoviedb.base.BaseRecyclerView
+                android:id="@+id/rvFavorite"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="40dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:id="@+id/divider"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginTop="20dp"
+                android:padding="30dp"
+                app:layout_constraintEnd_toEndOf="@+id/rvFavorite"
+                app:layout_constraintStart_toStartOf="@+id/rvFavorite"
+                app:layout_constraintTop_toBottomOf="@+id/rvFavorite" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.core.widget.NestedScrollView>
 
