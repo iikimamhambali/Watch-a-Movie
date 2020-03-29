@@ -15,11 +15,6 @@ class DaoRepository(
         repositoryDao.saveFavorite(mapper.transform(data))
     }
 
-    fun getAllData(): LiveData<List<MovieDetailDatabase>> = repositoryDao.getAllFavorite()
-
-    fun setItems() {
-        repositoryDao.saveFavorite(MovieDetailDatabase(false, 1))
-        repositoryDao.saveFavorite(MovieDetailDatabase(false, 2))
-        repositoryDao.saveFavorite(MovieDetailDatabase(false, 3))
-    }
+    fun getAllData(): LiveData<List<MovieDetailDatabase>> =
+        repositoryDao.getAllFavorite()
 }

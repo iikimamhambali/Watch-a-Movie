@@ -1,12 +1,8 @@
 package com.android.themoviedb.model
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
-@Entity(tableName = "table_detail")
 data class MovieDetailResult(
-    @PrimaryKey
     @SerializedName("id") val id: Int,
     @SerializedName("adult") val adult: Boolean,
     @SerializedName("backdrop_path") val backdropPath: String,

@@ -5,7 +5,6 @@ import com.android.themoviedb.helper.Mapper
 class MovieDetailMapper : Mapper<MovieDetailResult, MovieDetailDatabase> {
 
     override fun transform(from: MovieDetailResult): MovieDetailDatabase {
-
         val movieDetail = MovieDetailDatabase()
         movieDetail.adult = from.adult
         movieDetail.backdropPath = from.backdropPath
@@ -18,7 +17,6 @@ class MovieDetailMapper : Mapper<MovieDetailResult, MovieDetailDatabase> {
         movieDetail.title = from.title
         movieDetail.voteAverage = from.voteAverage
         movieDetail.voteCount = from.voteCount
-
         return movieDetail
     }
 }

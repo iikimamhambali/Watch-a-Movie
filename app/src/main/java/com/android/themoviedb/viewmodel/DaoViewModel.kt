@@ -14,8 +14,4 @@ class DaoViewModel(private val repository: DaoRepository) : BaseViewModel() {
     fun getAllData() {
         repository.getAllData()
     }
-
-    fun setItem() {
-        repository.setItems()
-    }
 }
