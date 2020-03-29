@@ -26,8 +26,8 @@ import org.koin.android.viewmodel.ext.android.viewModel
 
 class HomePageActivity : BaseActivity(), HomePageViewHolder.SetItemListener {
 
-    private val currentPage = 0
-    private val totalPage = 0
+    private var currentPage = 1
+    private var totalPage = 0
     private var isLoading = false
 
     private val viewModel by viewModel<MovieViewModel>()
@@ -63,6 +63,12 @@ class HomePageActivity : BaseActivity(), HomePageViewHolder.SetItemListener {
         }
     }
 
+    private fun setupListener() {
+        setOnClickToolbar()
+        setOnClickCategory()
+        setScrollListener()
+    }
+
     private fun setScrollListener() {
         nestedHome.setOnScrollChangeListener(
             NestedScrollView.OnScrollChangeListener { v, _, scrollY, _, oldScrollY ->
@@ -70,15 +76,10 @@ class HomePageActivity : BaseActivity(), HomePageViewHolder.SetItemListener {
                     if ((scrollY >= (v.getChildAt(v.childCount - 1).measuredHeight - v.measuredHeight)) &&
                         scrollY > oldScrollY
                     ) {
-//                        loadingData(currentPage)
+                        loadingDataNowPlaying(currentPage)
                     }
                 }
             })
-    }
-
-    private fun setupListener() {
-        setOnClickToolbar()
-        setOnClickCategory()
     }
 
     private fun setOnClickToolbar() {
@@ -122,16 +123,17 @@ class HomePageActivity : BaseActivity(), HomePageViewHolder.SetItemListener {
     }
 
     private fun addData(data: List<MovieList>) {
-        resultItems.clear()
+        val positionStart = resultItems.size + 1
+        val itemCount = data.size
         resultItems.addAll(data)
-        adapterMovie.notifyDataSetChanged()
+        adapterMovie.notifyItemRangeInserted(positionStart, itemCount)
     }
 
     override fun onClick(items: MovieList) {
         startActivity<DetailMovieActivity>(MOVIE_ID to items.id, TITLE_MOVIE to items.title)
     }
 
-    private fun request(page: Int, region: String = ""): MovieRequest =
+    private fun request(page: Int = 0, region: String = ""): MovieRequest =
         MovieRequest(
             getString(R.string.api_key),
             LANGUAGE, page, region
@@ -163,46 +165,58 @@ class HomePageActivity : BaseActivity(), HomePageViewHolder.SetItemListener {
         viewModel.listNowPlayingMovie.observe(this, Observer {
             parseObserveData(it, resultSuccess = { result, pagination ->
                 addData(result.results)
+                result.page = currentPage
+                currentPage++
+                totalPage = result.totalPages
             })
         })
 
         viewModel.listPopularMovie.observe(this, Observer {
             parseObserveData(it, resultSuccess = { result, pagination ->
                 addData(result.results)
+                result.page = currentPage
+                currentPage++
+                totalPage = result.totalPages
             })
         })
 
         viewModel.listUpComingMovie.observe(this, Observer {
             parseObserveData(it, resultSuccess = { result, pagination ->
                 addData(result.results)
+                result.page = currentPage
+                currentPage++
+                totalPage = result.totalPages
             })
         })
 
         viewModel.listTopRatedMovie.observe(this, Observer {
             parseObserveData(it, resultSuccess = { result, pagination ->
                 addData(result.results)
+                result.page = currentPage
+                currentPage++
+                totalPage = result.totalPages
             })
         })
     }
 
     override fun startLoading() {
-//        isLoading = true
-//        when {
-//            isLoading -> {
+        isLoading = true
+        when {
+            request().isFirstPage() -> {
                 progress_horizontal.visibility = View.VISIBLE
-//            }
-//            else -> swipeHome.isRefreshing = true
-//        }
+            }
+            else -> progress_horizontal.visibility = View.GONE
+        }
     }
 
     override fun stopLoading() {
-//        isLoading = false
-//        when {
-//            isLoading -> {
+        isLoading = false
+        when {
+            request().isFirstPage() -> {
                 progress_horizontal.visibility = View.GONE
-//            }
-//            else -> swipeHome.isRefreshing = false
-//        }
-//        swipeHome.isRefreshing = false
+            }
+            else -> progress_horizontal.visibility = View.GONE
+        }
+        progress_horizontal.visibility = View.GONE
     }
 }

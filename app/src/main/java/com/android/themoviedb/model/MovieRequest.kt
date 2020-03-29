@@ -10,4 +10,7 @@ data class MovieRequest(
     @SerializedName("language") val language: String,
     @SerializedName("page") val page: Int,
     @SerializedName("region") val region: String
-) : Parcelable
+) : Parcelable {
+
+    fun isFirstPage(): Boolean = page == 1
+}
