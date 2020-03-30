@@ -11,6 +11,8 @@ android {
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
+        vectorDrawables.useSupportLibrary = true
+        multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -41,6 +43,7 @@ android {
 
     packagingOptions {
         exclude 'META-INF/services/javax.annotation.processing.Processor'
+        exclude 'META-INF/atomicfu.kotlin_module'
         exclude 'META-INF/notice.txt'
         exclude 'META-INF/license.txt'
         exclude 'META-INF/NOTICE'
@@ -88,7 +91,7 @@ dependencies {
     implementation supportDependencies.coreKtx
     implementation supportDependencies.coreKtx
     implementation supportDependencies.recyclerView
-    implementation supportDependencies.recyclerView
+    implementation supportDependencies.design
     implementation supportDependencies.cardView
     implementation supportDependencies.constrainLayout
 
@@ -96,8 +99,11 @@ dependencies {
     api archLifecycle.archRoomRxJava2
     api archLifecycle.archExtensions
     api archLifecycle.archViewModel
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     kapt archLifecycle.archRoomCompiler
     kapt archLifecycle.archCompiler
+    kapt archLifecycle.archRoomPersistanceCompile
 
     testImplementation testLibraries.junit
 

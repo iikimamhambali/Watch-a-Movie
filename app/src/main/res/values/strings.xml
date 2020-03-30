@@ -1,3 +1,20 @@
 <resources>
-    <string name="app_name">What a Movie</string>
+    <string name="app_name">Watch a Movie</string>
+    <string name="label_category">Category</string>
+    <string name="label_popular">Popular</string>
+    <string name="label_upcoming">Upcoming</string>
+    <string name="label_top_rated">Top Rated</string>
+    <string name="label_now_playing">Now Playing</string>
+    <string name="label_overview">Overview</string>
+    <string name="label_favorite">Favorite Movie</string>
+    <string name="label_production_company">Production Company</string>
+    <string name="label_review">Review</string>
+    <string name="label_title_empty_favorite">Sorry... your favorite movie is gone</string>
+    <string name="label_subtitle_empty_favorite">Choose your favorite movie</string>
+    <string name="label_confirmation_remove">Are you sure to remove this video?</string>
+    <string name="label_confirmation_favorite">Are you sure to favorite this video?</string>
+    <string name="label_cancel">Cancel</string>
+    <string name="label_confirm">Confirm</string>
+    <string name="label_title_empty_detail">Oppss... Detail movie not found</string>
+    <string name="label_subtitle_empty_detail">Please try again</string>
 </resources>

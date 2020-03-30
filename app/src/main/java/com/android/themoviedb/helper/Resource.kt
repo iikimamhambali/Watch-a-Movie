@@ -20,6 +20,10 @@ data class Resource<out T>(
             return Resource(Status.DATA_NOT_FOUND, null, null)
         }
 
+        fun <T> invalidToken(): Resource<T> {
+            return Resource(Status.INVALID_TOKEN, null, null)
+        }
+
         fun <T> error(throwable: Throwable? = null): Resource<T> {
             return Resource(Status.ERROR, null, throwable)
         }

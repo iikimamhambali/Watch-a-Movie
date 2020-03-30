@@ -40,7 +40,7 @@ interface BaseView {
     fun <T> parseObserveData(
         resource: Resource<T>,
         resultLoading: (T?) -> Unit = { startLoading() },
-        resultSuccess: (T?) -> Unit = { _ -> },
+        resultSuccess: (T, T) -> Unit = { _, _ -> },
         resultDataNotFound: (T?) -> Unit = { onDataNotFound() },
         resultServerBusy: (T?) -> Unit = { onServerBusy() },
         resultNetworkFailed: (Throwable?) -> Unit = { onInternetError() },
@@ -52,7 +52,7 @@ interface BaseView {
             }
             Status.SUCCESS -> {
                 stopLoading()
-                resource.data?.let { resultSuccess(it) }
+                resource.data?.let { resultSuccess(it, it) }
             }
             Status.DATA_NOT_FOUND -> {
                 stopLoading()

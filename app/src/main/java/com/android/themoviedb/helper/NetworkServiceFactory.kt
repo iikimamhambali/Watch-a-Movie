@@ -7,24 +7,8 @@ import com.google.gson.GsonBuilder
 import okhttp3.Cache
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 object NetworkServiceFactory {
-
-//    fun makeNetworkService(
-//        context: Context,
-//        okHttpClient: OkHttpClient,
-//        gson: Gson
-//    ): SearchServices {
-//        val retrofit = Retrofit.Builder()
-//            .addConverterFactory(GsonConverterFactory.create(gson))
-//            .addCallAdapterFactory(LiveDataCallAdapterFactory())
-//            .client(okHttpClient)
-//            .baseUrl(context.getString(R.string.server_url) + "/")
-//            .build()
-//        return retrofit.create(SearchServices::class.java)
-//    }
 
     fun makeClientService(loggingInterceptor: HttpLoggingInterceptor, cache: Cache): OkHttpClient {
         return OkHttpClient.Builder()

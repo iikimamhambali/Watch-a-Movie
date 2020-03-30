@@ -3,6 +3,8 @@ package com.android.themoviedb.base
 import android.content.Context
 import android.util.AttributeSet
 import androidx.recyclerview.widget.*
+import com.android.themoviedb.helper.GridItemDecoration
+import com.android.themoviedb.helper.HorizontalItemDecoration
 
 class BaseRecyclerView : RecyclerView {
 
@@ -31,6 +33,19 @@ class BaseRecyclerView : RecyclerView {
     enum class Snap {
         CAROUSEL,
         ITEM
+    }
+
+    fun initItemDecoration(space: Int) {
+        when (layout) {
+            LayoutManager.GRID -> {
+                addItemDecoration(GridItemDecoration(span, space))
+            }
+            LayoutManager.HORIZONTAL -> {
+                addItemDecoration(HorizontalItemDecoration(space))
+            }
+            else -> {
+            }
+        }
     }
 
     fun initRecyclerView(
