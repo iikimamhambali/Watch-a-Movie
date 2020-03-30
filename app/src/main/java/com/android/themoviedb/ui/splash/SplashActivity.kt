@@ -20,6 +20,7 @@ class SplashActivity : BaseActivity() {
 
         Handler().postDelayed({
             startActivity<HomePageActivity>()
+            this.finish()
         }, DELAY_SPLASH_SCREEN)
     }
 }
