@@ -6,21 +6,28 @@ import androidx.lifecycle.Observer
 import com.android.themoviedb.R
 import com.android.themoviedb.base.BaseActivity
 import com.android.themoviedb.base.BaseRecyclerView
-import com.android.themoviedb.helper.checkPermissionResults
-import com.android.themoviedb.helper.hasPermissions
-import com.android.themoviedb.helper.loadFromUrlWithPlaceholder
-import com.android.themoviedb.helper.runTimePermissions
+import com.android.themoviedb.helper.*
 import com.android.themoviedb.model.*
 import com.android.themoviedb.ui.detail.adapter.CompanyAdapter
 import com.android.themoviedb.ui.detail.adapter.ReviewAdapter
 import com.android.themoviedb.viewmodel.DaoViewModel
 import com.android.themoviedb.viewmodel.MovieViewModel
-import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.android.synthetic.main.activity_detail_movie.*
-import kotlinx.android.synthetic.main.layout_bottom_sheet_confirmation.view.*
+import kotlinx.android.synthetic.main.activity_detail_movie.ivFavoriteMovie
+import kotlinx.android.synthetic.main.activity_detail_movie.ivThumbnailMovie
+import kotlinx.android.synthetic.main.activity_detail_movie.nested
+import kotlinx.android.synthetic.main.activity_detail_movie.progressDetail
+import kotlinx.android.synthetic.main.activity_detail_movie.rvCompany
+import kotlinx.android.synthetic.main.activity_detail_movie.rvReview
+import kotlinx.android.synthetic.main.activity_detail_movie.sectionEmptyState
+import kotlinx.android.synthetic.main.activity_detail_movie.sectionReview
+import kotlinx.android.synthetic.main.activity_detail_movie.tvBodyAlertVerified
+import kotlinx.android.synthetic.main.activity_detail_movie.tvDescription
+import kotlinx.android.synthetic.main.activity_detail_movie.tvTitle
+import kotlinx.android.synthetic.main.activity_detail_movie.tvTitleAlertVerified
+import kotlinx.android.synthetic.main.activity_detail_movie.tvVoteAverage
 import kotlinx.android.synthetic.main.layout_toolbar_default.*
 import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.image
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class DetailMovieActivity : BaseActivity() {
@@ -96,9 +103,10 @@ class DetailMovieActivity : BaseActivity() {
         )
         tvVoteAverage.text = resultData.voteAverage.toString()
         tvTitle.text = resultData.title
-        tvReleaseDate.text = resultData.releaseDate
+        tvTotalCount.text = resultData.voteCount.toString() + " " + "Reviews"
         tvDescription.text = resultData.overview
         addDataCompany(resultData.productionCompanies)
+
     }
 
     private fun setOnClickToolbar() {
@@ -112,45 +120,28 @@ class DetailMovieActivity : BaseActivity() {
 
     private fun setOnClickFavorite() {
         ivFavoriteMovie.setOnClickListener {
-            when (!isSelected) {
+            when (hasPermissions(permissions)) {
                 true -> {
-                    when (hasPermissions(permissions)) {
-                        true -> {
-                            val dialog = BottomSheetDialog(this)
-                            val dialogView: View = layoutInflater.inflate(
-                                R.layout.layout_bottom_sheet_confirmation,
-                                null
-                            )
-
-                            with(dialogView) {
-                                this.tvBodyMessageConfirmDialog.text =
-                                    getString(R.string.label_confirmation_favorite)
-                                this.ivCloseConfirmDialog.setOnClickListener { dialog.dismiss() }
-                                this.btnCancelConfirmDialog.setOnClickListener { dialog.dismiss() }
-                                this.btnOkConfirmDialog.setOnClickListener {
-                                    doAsync {
-                                        viewModelDao.storeDataMovie(resultDetail)
-                                    }
-                                    isSelected = true
-                                    dialog.dismiss()
-                                }
-                                dialog.apply {
-                                    setContentView(dialogView)
-                                    show()
-                                }
-                            }
-                        }
-                        else -> {
-                            runTimePermissions(permissions, PERMISSION_REQUEST)
-                            isSelected = false
+                    doAsync {
+                        when (viewModelDao.storeDataMovie(resultDetail)) {
+                            true -> resultDetail.isChecked = true
+                            else -> setVisibilityFavourite(false)
                         }
                     }
+                    setVisibilityFavourite(true)
                 }
                 else -> {
-                    ivFavoriteMovie.image = getDrawable(R.drawable.ic_heart_color)
+                    runTimePermissions(permissions, PERMISSION_REQUEST)
+                    isSelected = false
                 }
             }
+        }
+    }
 
+    private fun setVisibilityFavourite(visible: Boolean) {
+        when (visible) {
+            true -> ivFavoriteMovie.loadFromResource(R.drawable.ic_heart_color)
+            else -> ivFavoriteMovie.loadFromResource(R.drawable.ic_heart_line)
         }
     }
 
@@ -181,17 +172,22 @@ class DetailMovieActivity : BaseActivity() {
             parseObserveData(it, resultSuccess = { result, _ ->
                 resultDetail = result
                 setupContentData(result)
+                if (isSelected) setVisibilityFavourite(true)
             })
         })
 
         viewModel.reviewMovie.observe(this, Observer {
-            parseObserveData(it, resultLoading = {}, resultDataNotFound = {},resultSuccess = { result, pagination ->
-                if (result.results.isNullOrEmpty()) {
-                    sectionReview.visibility = View.INVISIBLE
-                    return@parseObserveData
-                }
-                addData(result.results)
-            })
+            parseObserveData(
+                it,
+                resultLoading = {},
+                resultDataNotFound = {},
+                resultSuccess = { result, pagination ->
+                    if (result.results.isNullOrEmpty()) {
+                        sectionReview.visibility = View.INVISIBLE
+                        return@parseObserveData
+                    }
+                    addData(result.results)
+                })
         })
     }
 

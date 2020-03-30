@@ -76,28 +76,53 @@
                         app:srcCompat="@drawable/ic_heart_line" />
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/tvReleaseDate"
+                        android:id="@+id/tvTotalCount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="6dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginBottom="4dp"
                         android:textSize="12sp"
                         android:textStyle="bold"
-                        app:layout_constraintStart_toStartOf="@+id/tvTitle"
-                        app:layout_constraintTop_toBottomOf="@+id/tvTitle"
+                        app:layout_constraintBottom_toBottomOf="@+id/tvVoteAverage"
+                        app:layout_constraintStart_toEndOf="@+id/tvVoteAverage"
                         tools:text="02 April 1994" />
+
+                    <androidx.appcompat.widget.AppCompatRatingBar
+                        android:id="@+id/rating"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:clickable="false"
+                        android:focusable="false"
+                        android:visibility="gone"
+                        android:numStars="5"
+                        android:saveEnabled="false"
+                        android:stepSize="0.5"
+                        app:layout_constraintBottom_toBottomOf="@id/tvVoteAverage"
+                        app:layout_constraintStart_toEndOf="@+id/tvVoteAverage"
+                        app:layout_constraintTop_toTopOf="@+id/tvVoteAverage" />
+
+                    <LinearLayout
+                        android:id="@+id/llRating"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginBottom="4dp"
+                        android:gravity="center_horizontal"
+                        android:orientation="horizontal"
+                        app:layout_constraintBottom_toBottomOf="@+id/tvVoteAverage"
+                        app:layout_constraintStart_toEndOf="@+id/tvVoteAverage"
+                        app:layout_constraintTop_toTopOf="@+id/tvVoteAverage" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/tvVoteAverage"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="6dp"
-                        android:gravity="center"
                         android:textColor="@color/colorPrimaryDark"
                         android:textSize="28sp"
                         android:textStyle="bold"
-                        app:layout_constraintBottom_toBottomOf="@+id/tvReleaseDate"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/tvReleaseDate"
+                        app:layout_constraintStart_toStartOf="@+id/tvTitle"
+                        app:layout_constraintTop_toBottomOf="@+id/tvTitle"
                         tools:text="9.5" />
 
                     <androidx.appcompat.widget.AppCompatTextView
@@ -231,7 +256,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="@string/label_title_empty_favorite"
-            android:textColor="@android:color/white"
+            android:textColor="@color/colorPrimaryDark"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -245,7 +270,7 @@
             android:gravity="center"
             android:text="@string/label_subtitle_empty_favorite"
             android:textAlignment="gravity"
-            android:textColor="@android:color/white"
+            android:textColor="@color/colorPrimaryDark"
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

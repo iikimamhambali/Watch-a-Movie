@@ -27,5 +27,6 @@ data class MovieDetailResult(
     @SerializedName("title") val title: String? = null,
     @SerializedName("video") val video: Boolean = false,
     @SerializedName("vote_average") val voteAverage: Double = 0.0,
-    @SerializedName("vote_count") val voteCount: Int = 0
+    @SerializedName("vote_count") val voteCount: Int = 0,
+    var isChecked: Boolean = false
 )

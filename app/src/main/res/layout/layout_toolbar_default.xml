@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="?actionBarSize"
-    android:background="@color/colorPrimaryDark"
+    android:background="@color/colorPrimary"
     android:minHeight="?attr/actionBarSize"
     app:titleTextColor="@android:color/white"
-    tools:background="@color/colorPrimaryDark">
+    tools:background="@color/colorPrimary">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

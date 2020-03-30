@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
     tools:context=".ui.favorite.FavoriteActivity">
 
     <include
@@ -87,7 +86,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="@string/label_title_empty_favorite"
-            android:textColor="@android:color/white"
+            android:textColor="@color/colorPrimaryDark"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -101,7 +100,7 @@
             android:gravity="center"
             android:text="@string/label_subtitle_empty_favorite"
             android:textAlignment="gravity"
-            android:textColor="@android:color/white"
+            android:textColor="@color/colorPrimaryDark"
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

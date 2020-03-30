@@ -67,6 +67,7 @@
         android:background="@drawable/bg_btn_line"
         android:padding="8dp"
         android:text="@string/label_cancel"
+        android:textAllCaps="false"
         app:layout_constraintEnd_toEndOf="@id/vwCenterHorizontalConfirmDialog"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvBodyMessageConfirmDialog" />

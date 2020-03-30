@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
     tools:context=".ui.homePage.HomePageActivity">
 
     <include
@@ -14,14 +13,162 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/sectionCategory"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbarHomePage">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardPopular"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginStart="2dp"
+            app:cardBackgroundColor="@color/colorPrimary"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="8dp"
+            app:layout_constraintEnd_toStartOf="@+id/cardUpcoming"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginBottom="5dp">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_popular"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardUpcoming"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginStart="4dp"
+            app:cardBackgroundColor="@color/colorPrimary"
+            app:cardCornerRadius="10dp"
+            app:layout_constraintEnd_toStartOf="@+id/cardTopRated"
+            app:cardElevation="8dp"
+            app:layout_constraintBottom_toBottomOf="@id/cardPopular"
+            app:layout_constraintStart_toEndOf="@+id/cardPopular"
+            app:layout_constraintTop_toTopOf="@+id/cardPopular">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginBottom="5dp">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_upcoming"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardTopRated"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginStart="4dp"
+            app:cardBackgroundColor="@color/colorPrimary"
+            app:cardCornerRadius="10dp"
+            app:layout_constraintEnd_toStartOf="@+id/cardNowPlaying"
+            app:cardElevation="8dp"
+            app:layout_constraintBottom_toBottomOf="@id/cardUpcoming"
+            app:layout_constraintStart_toEndOf="@+id/cardUpcoming"
+            app:layout_constraintTop_toTopOf="@+id/cardUpcoming">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginBottom="5dp">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_top_rated"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardNowPlaying"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginStart="4dp"
+            app:cardBackgroundColor="@color/colorPrimary"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="8dp"
+            android:layout_marginEnd="2dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/cardTopRated"
+            app:layout_constraintStart_toEndOf="@+id/cardTopRated"
+            app:layout_constraintTop_toTopOf="@+id/cardTopRated">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginBottom="5dp">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_now_playing"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefreshHome"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/toolbarHomePage"
-        app:layout_constraintEnd_toEndOf="@+id/toolbarHomePage"
-        app:layout_constraintStart_toStartOf="@+id/toolbarHomePage"
-        app:layout_constraintTop_toBottomOf="@+id/toolbarHomePage">
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toEndOf="@+id/sectionCategory"
+        app:layout_constraintStart_toStartOf="@+id/sectionCategory"
+        app:layout_constraintTop_toBottomOf="@+id/sectionCategory">
 
         <androidx.core.widget.NestedScrollView
             android:id="@+id/nestedHome"
@@ -37,7 +184,7 @@
                     android:id="@+id/rvHomePage"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="60dp"
+                    android:paddingBottom="70dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -107,7 +254,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="@string/label_title_empty_favorite"
-            android:textColor="@android:color/white"
+            android:textColor="@color/colorPrimaryDark"
             android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -121,7 +268,7 @@
             android:gravity="center"
             android:text="@string/label_subtitle_empty_favorite"
             android:textAlignment="gravity"
-            android:textColor="@android:color/white"
+            android:textColor="@color/colorPrimaryDark"
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -137,6 +284,7 @@
         android:background="@drawable/bg_btn_color"
         android:text="@string/label_category"
         android:textAllCaps="false"
+        android:visibility="gone"
         android:textColor="@android:color/white"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
