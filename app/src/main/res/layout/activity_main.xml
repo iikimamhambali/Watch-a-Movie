@@ -14,41 +14,49 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.core.widget.NestedScrollView
-        android:id="@+id/nestedHome"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshHome"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolbarHomePage"
         app:layout_constraintEnd_toEndOf="@+id/toolbarHomePage"
         app:layout_constraintStart_toStartOf="@+id/toolbarHomePage"
         app:layout_constraintTop_toBottomOf="@+id/toolbarHomePage">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/sectionList"
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/nestedHome"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="0dp">
 
-            <com.android.themoviedb.base.BaseRecyclerView
-                android:id="@+id/rvHomePage"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/sectionList"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingBottom="60dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:layout_height="wrap_content">
 
-            <View
-                android:id="@+id/divider"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_marginTop="20dp"
-                android:padding="30dp"
-                app:layout_constraintEnd_toEndOf="@+id/rvHomePage"
-                app:layout_constraintStart_toStartOf="@+id/rvHomePage"
-                app:layout_constraintTop_toBottomOf="@+id/rvHomePage" />
+                <com.android.themoviedb.base.BaseRecyclerView
+                    android:id="@+id/rvHomePage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="60dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                <View
+                    android:id="@+id/divider"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="20dp"
+                    android:padding="30dp"
+                    app:layout_constraintEnd_toEndOf="@+id/rvHomePage"
+                    app:layout_constraintStart_toStartOf="@+id/rvHomePage"
+                    app:layout_constraintTop_toBottomOf="@+id/rvHomePage" />
 
-    </androidx.core.widget.NestedScrollView>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <ProgressBar
         android:id="@+id/progress_horizontal"
@@ -61,6 +69,65 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:visibility="visible" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/sectionEmptyState"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbarHomePage"
+        tools:visibility="visible">
+
+        <View
+            android:id="@+id/vwCenter"
+            android:layout_width="1dp"
+            android:layout_height="1dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivAlertVerified"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toTopOf="@id/vwCenter"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:srcCompat="@drawable/ic_film_reel"
+            tools:ignore="ContentDescription" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvTitleAlertVerified"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/label_title_empty_favorite"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/vwCenter" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvBodyAlertVerified"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:gravity="center"
+            android:text="@string/label_subtitle_empty_favorite"
+            android:textAlignment="gravity"
+            android:textColor="@android:color/white"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvTitleAlertVerified" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnCategory"

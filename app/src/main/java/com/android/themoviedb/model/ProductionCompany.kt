@@ -6,8 +6,8 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class ProductionCompany(
-    @SerializedName("id") val id: Int,
-    @SerializedName("logo_path") val logoPath: String,
-    @SerializedName("name") val name: String,
-    @SerializedName("origin_country") val originCountry: String
+    @SerializedName("id") val id: Int = 0,
+    @SerializedName("logo_path") val logoPath: String? = null,
+    @SerializedName("name") val name: String? = null,
+    @SerializedName("origin_country") val originCountry: String? = null
 ) : Parcelable

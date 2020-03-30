@@ -5,6 +5,7 @@ enum class Status {
     SUCCESS,
     DATA_NOT_FOUND,
     SERVER_BUSY,
+    INVALID_TOKEN,
     NETWORK_FAILED,
     ERROR
 }

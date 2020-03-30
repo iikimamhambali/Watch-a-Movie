@@ -45,6 +45,7 @@ class HomePageActivity : BaseActivity(), HomePageViewHolder.SetItemListener {
         super.initView(savedInstanceState)
         setupToolbar()
         setupRecyclerView()
+        setContentVisibility(true)
     }
 
     override fun initEvent() {
@@ -63,10 +64,45 @@ class HomePageActivity : BaseActivity(), HomePageViewHolder.SetItemListener {
         }
     }
 
+    private fun setContentVisibility(visible: Boolean) {
+        when (visible) {
+            true -> {
+                sectionEmptyState.visibility = View.GONE
+                nestedHome.visibility = View.VISIBLE
+            }
+            else -> {
+                nestedHome.visibility = View.GONE
+                sectionEmptyState.visibility = View.VISIBLE
+            }
+        }
+    }
+
     private fun setupListener() {
         setOnClickToolbar()
         setOnClickCategory()
         setScrollListener()
+        setupSwipeRefresh()
+    }
+
+    private fun setupSwipeRefresh() {
+        with(swipeRefreshHome) {
+            setOnRefreshListener {
+                resetData()
+                loadingData()
+            }
+            setColorSchemeColors(
+                context.getColorCompat(R.color.colorPrimary),
+                context.getColorCompat(R.color.colorPrimary),
+                context.getColorCompat(R.color.colorPrimary)
+            )
+            val typedValue = android.util.TypedValue()
+            context.theme?.resolveAttribute(R.attr.actionBarSize, typedValue, true)
+            setProgressViewOffset(
+                false,
+                0,
+                context.resources.getDimensionPixelSize(typedValue.resourceId)
+            )
+        }
     }
 
     private fun setScrollListener() {
@@ -122,11 +158,23 @@ class HomePageActivity : BaseActivity(), HomePageViewHolder.SetItemListener {
         }
     }
 
-    private fun addData(data: List<MovieList>) {
+    private fun addDataNowPlaying(data: List<MovieList>) {
         val positionStart = resultItems.size + 1
         val itemCount = data.size
         resultItems.addAll(data)
         adapterMovie.notifyItemRangeInserted(positionStart, itemCount)
+    }
+
+    private fun addData(data: List<MovieList>) {
+        resultItems.clear()
+        resultItems.addAll(data)
+        adapterMovie.notifyDataSetChanged()
+    }
+
+    private fun resetData() {
+        currentPage = 1
+        resultItems.clear()
+        adapterMovie.notifyDataSetChanged()
     }
 
     override fun onClick(items: MovieList) {
@@ -164,7 +212,7 @@ class HomePageActivity : BaseActivity(), HomePageViewHolder.SetItemListener {
         super.observeData()
         viewModel.listNowPlayingMovie.observe(this, Observer {
             parseObserveData(it, resultSuccess = { result, pagination ->
-                addData(result.results)
+                addDataNowPlaying(result.results)
                 result.page = currentPage
                 currentPage++
                 totalPage = result.totalPages
@@ -172,29 +220,20 @@ class HomePageActivity : BaseActivity(), HomePageViewHolder.SetItemListener {
         })
 
         viewModel.listPopularMovie.observe(this, Observer {
-            parseObserveData(it, resultSuccess = { result, pagination ->
+            parseObserveData(it, resultLoading = {}, resultSuccess = { result, pagination ->
                 addData(result.results)
-                result.page = currentPage
-                currentPage++
-                totalPage = result.totalPages
             })
         })
 
         viewModel.listUpComingMovie.observe(this, Observer {
-            parseObserveData(it, resultSuccess = { result, pagination ->
+            parseObserveData(it, resultLoading = {}, resultSuccess = { result, pagination ->
                 addData(result.results)
-                result.page = currentPage
-                currentPage++
-                totalPage = result.totalPages
             })
         })
 
         viewModel.listTopRatedMovie.observe(this, Observer {
-            parseObserveData(it, resultSuccess = { result, pagination ->
+            parseObserveData(it, resultLoading = {}, resultSuccess = { result, pagination ->
                 addData(result.results)
-                result.page = currentPage
-                currentPage++
-                totalPage = result.totalPages
             })
         })
     }
@@ -205,7 +244,7 @@ class HomePageActivity : BaseActivity(), HomePageViewHolder.SetItemListener {
             request().isFirstPage() -> {
                 progress_horizontal.visibility = View.VISIBLE
             }
-            else -> progress_horizontal.visibility = View.GONE
+            else -> swipeRefreshHome.isRefreshing = true
         }
     }
 
@@ -215,8 +254,16 @@ class HomePageActivity : BaseActivity(), HomePageViewHolder.SetItemListener {
             request().isFirstPage() -> {
                 progress_horizontal.visibility = View.GONE
             }
-            else -> progress_horizontal.visibility = View.GONE
+            else -> swipeRefreshHome.isRefreshing = false
         }
-        progress_horizontal.visibility = View.GONE
+        swipeRefreshHome.isRefreshing = false
+    }
+
+    override fun onDataNotFound() {
+        setContentVisibility(false)
+    }
+
+    override fun onInternetError() {
+        setContentVisibility(false)
     }
 }

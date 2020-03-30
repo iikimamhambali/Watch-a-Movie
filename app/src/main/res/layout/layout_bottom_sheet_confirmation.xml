@@ -44,11 +44,11 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:text="Are you sure to remove this video?"
         android:textColor="@android:color/darker_gray"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/vwDividerHeaderConfirmDialog" />
+        app:layout_constraintTop_toBottomOf="@id/vwDividerHeaderConfirmDialog"
+        tools:text="@string/label_confirmation_remove" />
 
     <View
         android:id="@+id/vwCenterHorizontalConfirmDialog"
@@ -59,14 +59,6 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnCancel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-
-        app:layout_constraintStart_toStartOf="@+id/vwCenterHorizontalConfirmDialog"
-        app:layout_constraintTop_toBottomOf="@+id/vwCenterHorizontalConfirmDialog" />
-
-    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnCancelConfirmDialog"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -74,7 +66,7 @@
         android:layout_marginEnd="4dp"
         android:background="@drawable/bg_btn_line"
         android:padding="8dp"
-        android:text="Cancel"
+        android:text="@string/label_cancel"
         app:layout_constraintEnd_toEndOf="@id/vwCenterHorizontalConfirmDialog"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvBodyMessageConfirmDialog" />
@@ -87,7 +79,7 @@
         android:layout_marginTop="36dp"
         android:background="@drawable/bg_btn_color"
         android:padding="8dp"
-        android:text="Confirm"
+        android:text="@string/label_confirm"
         android:textAllCaps="false"
         android:textColor="@android:color/white"
         app:layout_constraintEnd_toEndOf="parent"

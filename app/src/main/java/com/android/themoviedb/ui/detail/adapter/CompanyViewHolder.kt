@@ -11,7 +11,7 @@ class CompanyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
     fun bind(items: ProductionCompany) {
         with(itemView) {
-            val imageUrl = "https://image.tmdb.org/t/p/w500" + items.logoPath
+            val imageUrl = "https://image.tmdb.org/t/p/original" + items.logoPath
             ivAvaCompany.loadFromUrlWithPlaceholder(
                 imageUrl,
                 R.drawable.ic_thumbnails,

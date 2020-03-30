@@ -11,4 +11,10 @@
     <string name="label_review">Review</string>
     <string name="label_title_empty_favorite">Sorry... your favorite movie is gone</string>
     <string name="label_subtitle_empty_favorite">Choose your favorite movie</string>
+    <string name="label_confirmation_remove">Are you sure to remove this video?</string>
+    <string name="label_confirmation_favorite">Are you sure to favorite this video?</string>
+    <string name="label_cancel">Cancel</string>
+    <string name="label_confirm">Confirm</string>
+    <string name="label_title_empty_detail">Oppss... Detail movie not found</string>
+    <string name="label_subtitle_empty_detail">Please try again</string>
 </resources>

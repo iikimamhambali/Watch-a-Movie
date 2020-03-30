@@ -6,6 +6,6 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class SpokenLanguage(
-    @SerializedName("iso_639_1") val iso: String,
-    @SerializedName("name") val name: String
+    @SerializedName("iso_639_1") val iso: String? = null,
+    @SerializedName("name") val name: String? = null
 ) : Parcelable
