@@ -9,7 +9,7 @@ import com.android.themoviedb.model.MovieDetailResult
 
 @Database(
     entities = [(MovieDetailDatabase::class)],
-    version = 3,
+    version = 4,
     exportSchema = false
 )
 @TypeConverters(

@@ -15,7 +15,7 @@ class FavoriteAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoriteViewHolder =
         FavoriteViewHolder(
             LayoutInflater.from(parent.context).inflate(
-                R.layout.layout_item_movie,
+                R.layout.layout_item_favorite,
                 parent,
                 false
             ), listener

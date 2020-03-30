@@ -10,7 +10,7 @@ data class MovieDetailAdapter(
     var backdropPath: String? = "",
     var belongsToCollection: BelongsCollection? = null,
     var budget: Int = 0,
-    var genres: MutableList<Genre>? = mutableListOf(),
+    var genres: MutableList<Genre> = mutableListOf(),
     var homepage: String? = "",
     var imdbId: String? = "",
     var originalLanguage: String? = "",

@@ -12,7 +12,7 @@ data class MovieDetailDatabase(
     @ColumnInfo(name = "backdrop_path") var backdropPath: String? = "",
     @ColumnInfo(name = "belongs_to_collection") var belongsToCollection: BelongsCollection? = null,
     @ColumnInfo(name = "budget") var budget: Int = 0,
-    @ColumnInfo(name = "genres") var genres: MutableList<Genre>? = mutableListOf(),
+    @ColumnInfo(name = "genres") var genres: MutableList<Genre> = mutableListOf(),
     @ColumnInfo(name = "homepage") var homepage: String? = "",
     @ColumnInfo(name = "imdb_id") var imdbId: String? = "",
     @ColumnInfo(name = "original_language") var originalLanguage: String? = "",
