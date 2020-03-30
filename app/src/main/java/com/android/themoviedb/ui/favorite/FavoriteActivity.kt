@@ -10,7 +10,9 @@ import com.android.themoviedb.model.MovieDetailAdapter
 import com.android.themoviedb.ui.favorite.adapter.FavoriteAdapter
 import com.android.themoviedb.ui.favorite.adapter.FavoriteViewHolder
 import com.android.themoviedb.viewmodel.DaoViewModel
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.android.synthetic.main.activity_favorite.*
+import kotlinx.android.synthetic.main.layout_bottom_sheet_delete.view.*
 import kotlinx.android.synthetic.main.layout_toolbar_default.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -70,7 +72,24 @@ class FavoriteActivity : BaseActivity(), FavoriteViewHolder.SetItemListener {
     }
 
     override fun onClickRemove(items: MovieDetailAdapter) {
-        items.id?.let { viewModelDao.deleteItem(it) }
+        val dialog = BottomSheetDialog(this)
+        val dialogView: View = layoutInflater.inflate(
+            R.layout.layout_bottom_sheet_delete,
+            null
+        )
+
+        with(dialogView) {
+            this.ivCloseConfirmDialog.setOnClickListener { dialog.dismiss() }
+            this.btnCancelConfirmDialog.setOnClickListener { dialog.dismiss() }
+            this.btnOkConfirmDialog.setOnClickListener {
+                items.id?.let { viewModelDao.deleteItem(it) }
+                dialog.dismiss()
+            }
+            dialog.apply {
+                setContentView(dialogView)
+                show()
+            }
+        }
     }
 
     override fun observeData() {

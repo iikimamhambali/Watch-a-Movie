@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/vwParentConfirmDialog"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_dialog_bottom"
+    android:paddingStart="26dp"
+    android:paddingTop="26dp"
+    android:paddingEnd="26dp"
+    android:paddingBottom="16dp">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvTitleConfirmDialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Confirmation"
+        android:textColor="@android:color/black"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ivCloseConfirmDialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?attr/actionBarItemBackground"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_close"
+        tools:ignore="ContentDescription" />
+
+    <View
+        android:id="@+id/vwDividerHeaderConfirmDialog"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/colorLightGreyBackground"
+        app:layout_constraintTop_toBottomOf="@id/tvTitleConfirmDialog" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvBodyMessageConfirmDialog"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Are you sure to remove this video?"
+        android:textColor="@android:color/darker_gray"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/vwDividerHeaderConfirmDialog" />
+
+    <View
+        android:id="@+id/vwCenterHorizontalConfirmDialog"
+        android:layout_width="1dp"
+        android:layout_height="1dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnCancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        app:layout_constraintStart_toStartOf="@+id/vwCenterHorizontalConfirmDialog"
+        app:layout_constraintTop_toBottomOf="@+id/vwCenterHorizontalConfirmDialog" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnCancelConfirmDialog"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="4dp"
+        android:background="@drawable/bg_btn_line"
+        android:padding="8dp"
+        android:text="Cancel"
+        app:layout_constraintEnd_toEndOf="@id/vwCenterHorizontalConfirmDialog"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvBodyMessageConfirmDialog" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnOkConfirmDialog"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="36dp"
+        android:background="@drawable/bg_btn_color"
+        android:padding="8dp"
+        android:text="Confirm"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/vwCenterHorizontalConfirmDialog"
+        app:layout_constraintTop_toBottomOf="@id/tvBodyMessageConfirmDialog" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
