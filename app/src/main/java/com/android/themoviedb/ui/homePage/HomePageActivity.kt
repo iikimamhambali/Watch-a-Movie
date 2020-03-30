@@ -17,9 +17,7 @@ import com.android.themoviedb.ui.favorite.FavoriteActivity
 import com.android.themoviedb.ui.homePage.adapter.HomePageAdapter
 import com.android.themoviedb.ui.homePage.adapter.HomePageViewHolder
 import com.android.themoviedb.viewmodel.MovieViewModel
-import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.layout_bottom_sheet_category.view.*
 import kotlinx.android.synthetic.main.layout_toolbar_default.*
 import org.jetbrains.anko.startActivity
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -125,37 +123,10 @@ class HomePageActivity : BaseActivity(), HomePageViewHolder.SetItemListener {
     }
 
     private fun setOnClickCategory() {
-        btnCategory.setOnClickListener {
-            val dialog = BottomSheetDialog(this)
-            val dialogView: View = layoutInflater.inflate(
-                R.layout.layout_bottom_sheet_category,
-                null
-            )
-
-            with(dialogView) {
-                this.tvPopular.setOnClickListener {
-                    loadingDataPopular(1)
-                    dialog.dismiss()
-                }
-                this.tvUpComing.setOnClickListener {
-                    loadingDataUpComing(1)
-                    dialog.dismiss()
-                }
-                this.tvTopRated.setOnClickListener {
-                    loadingDataTopRated(1)
-                    dialog.dismiss()
-                }
-                this.tvNowPlaying.setOnClickListener {
-                    loadingDataNowPlaying(1)
-                    dialog.dismiss()
-                }
-                this.ivClose.setOnClickListener { dialog.dismiss() }
-            }
-            dialog.apply {
-                setContentView(dialogView)
-                show()
-            }
-        }
+        cardPopular.setOnClickListener { loadingDataPopular(1) }
+        cardUpcoming.setOnClickListener { loadingDataUpComing(1) }
+        cardTopRated.setOnClickListener { loadingDataTopRated(1) }
+        cardNowPlaying.setOnClickListener { loadingDataNowPlaying(1) }
     }
 
     private fun addDataNowPlaying(data: List<MovieList>) {

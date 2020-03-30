@@ -53,3 +53,14 @@ fun ImageView.loadFromUrlWithPlaceholder(
         .error(errorPlaceholder)
         .into(this)
 }
+
+fun ImageView.loadFromResource(@DrawableRes imageRes: Int) {
+    val options = RequestOptions()
+        .dontAnimate()
+        .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+        .priority(Priority.IMMEDIATE)
+    Glide.with(this.context)
+        .load(imageRes)
+        .apply(options)
+        .into(this)
+}
