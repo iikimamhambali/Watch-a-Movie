@@ -160,18 +160,22 @@ class HomePageActivity : BaseActivity(), HomePageViewHolder.SetItemListener {
 
     private fun loadingDataNowPlaying(page: Int, region: String = "") {
         viewModel.getNowPlayingMovie(request(page, region))
+        tvGenreTitle.text = "Now Playing"
     }
 
     private fun loadingDataPopular(page: Int, region: String = "") {
         viewModel.getPopularMovie(request(page, region))
+        tvGenreTitle.text = "Popular"
     }
 
     private fun loadingDataUpComing(page: Int, region: String = "") {
         viewModel.getUpComingMovie(request(page, region))
+        tvGenreTitle.text = "Up Coming"
     }
 
     private fun loadingDataTopRated(page: Int, region: String = "") {
         viewModel.getTopRatedMovie(request(page, region))
+        tvGenreTitle.text = "Top Rated"
     }
 
     override fun loadingData(isFromSwipe: Boolean) {
